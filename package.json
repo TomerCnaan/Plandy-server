@@ -1,0 +1,20 @@
+{
+  "name": "plandy-server",
+  "version": "1.0.0",
+  "description": "project management app",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "nodejs",
+    "node",
+    "express",
+    "monogodb",
+    "socket.io",
+    "socketio",
+    "sever"
+  ],
+  "author": "Tomer Cnaan",
+  "license": "ISC"
+}
