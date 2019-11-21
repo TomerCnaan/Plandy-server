@@ -7,3 +7,13 @@
 {"level":"info","message":"Listening on port 5000...","timestamp":"2019-11-21T11:07:04.394Z"}
 {"level":"info","message":"Listening on port 5000...","timestamp":"2019-11-21T11:09:07.090Z"}
 {"level":"info","message":"Listening on port 5000...","timestamp":"2019-11-21T11:12:35.777Z"}
+{"level":"info","message":"Listening on port 5000...","timestamp":"2019-11-21T16:34:34.272Z"}
+{"level":"info","message":"Listening on port 5000...","timestamp":"2019-11-21T16:37:20.074Z"}
+{"level":"info","message":"Listening on port 5000...","timestamp":"2019-11-21T16:38:57.100Z"}
+{"level":"info","message":"Listening on port 5000...","timestamp":"2019-11-21T16:41:18.679Z"}
+{"level":"info","message":"Listening on port 5000...","timestamp":"2019-11-21T16:43:20.185Z"}
+{"level":"info","message":"Listening on port 5000...","timestamp":"2019-11-21T16:44:07.866Z"}
+{"level":"info","message":"Listening on port 5000...","timestamp":"2019-11-21T16:46:17.204Z"}
+{"level":"info","message":"Listening on port 5000...","timestamp":"2019-11-21T16:55:33.913Z"}
+{"message":"User validation failed: role: `memeber` is not a valid enum value for path `role`.","errors":{"role":{"message":"`memeber` is not a valid enum value for path `role`.","name":"ValidatorError","properties":{"message":"`memeber` is not a valid enum value for path `role`.","type":"enum","enumValues":["member","admin","supervisor"],"path":"role","value":"memeber"},"kind":"enum","path":"role","value":"memeber"}},"_message":"User validation failed","stack":"ValidationError: User validation failed: role: `memeber` is not a valid enum value for path `role`.\n    at new ValidationError (C:\\coding\\Plandy\\Plandy-server\\node_modules\\mongoose\\lib\\error\\validation.js:31:11)\n    at model.Document.invalidate (C:\\coding\\Plandy\\Plandy-server\\node_modules\\mongoose\\lib\\document.js:2413:32)\n    at p.doValidate.skipSchemaValidators (C:\\coding\\Plandy\\Plandy-server\\node_modules\\mongoose\\lib\\document.js:2262:17)\n    at C:\\coding\\Plandy\\Plandy-server\\node_modules\\mongoose\\lib\\schematype.js:1058:9\n    at process._tickCallback (internal/process/next_tick.js:61:11)","name":"ValidationError","level":"error","timestamp":"2019-11-21T16:55:57.991Z"}
+{"level":"info","message":"Listening on port 5000...","timestamp":"2019-11-21T16:56:21.367Z"}

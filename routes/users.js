@@ -1,4 +1,5 @@
 const _ = require("lodash");
+const bcrypt = require("bcrypt");
 const mongoose = require("mongoose");
 const express = require("express");
 const router = express.Router();
@@ -6,25 +7,44 @@ const router = express.Router();
 const { User, validate: validateUser } = require("../models/user");
 const { Company, validate: validateCompany } = require("../models/company");
 
+/*
+ This route is resposnsible for handling user registration.
+ This route handles registration without an invitation from an existing company,
+ so a new company must be created (every user belongs to a company).
+*/
 router.post("/", async (req, res) => {
-  const { error } = validateUser(req.body);
-  if (error) return res.status(400).send(error.details[0].message);
+	const { error } = validateUser(req.body);
+	if (error) return res.status(400).send(error.details[0].message);
 
-  let user = await User.findOne({ email: req.body.email });
-  if (user) return res.status(400).send("User already reagistered.");
+	let user = await User.findOne({ email: req.body.email });
+	if (user) return res.status(400).send("User already reagistered.");
 
-  let company = await Company.findOne({ name: req.body.company.name });
-  if (company)
-    return res.status(400).send("The company name has already been taken.");
+	let company = await Company.findOne({ name: req.body.company.name });
+	if (company)
+		return res.status(400).send("The company name has already been taken.");
 
-  const { error: companyError } = validateCompany(req.body.company);
-  if (companyError) return res.status(400).send(error.details[0].message);
+	const { error: companyError } = validateCompany(req.body.company);
+	if (companyError) return res.status(400).send(error.details[0].message);
 
-  company = new Company(_.pick(req.body.company, ["name"]));
-  await company.save();
+	company = new Company(_.pick(req.body.company, ["name"]));
+	await company.save();
 
-  user = new User(_.pick(req.body, ["name", "email", "password"]));
-  //TODO: add company property to the user object and save it to the DB
+	user = new User({
+		name: req.body.name,
+		email: req.body.email,
+		password: req.body.password,
+		company: company._id
+	});
+
+	const salt = await bcrypt.genSalt(10);
+	user.password = await bcrypt.hash(user.password, salt);
+	await user.save();
+
+	const token = user.generateAuthToken();
+	res
+		.header("x-auth-token", token)
+		.header("access-control-expose-headers", "x-auth-token")
+		.send(_.pick(user, ["_id", "name", "email", "company"]));
 });
 
 module.exports = router;
