@@ -66,7 +66,8 @@ function validateUser(user) {
     password: Joi.string()
       .min(6)
       .max(255)
-      .required()
+      .required(),
+    company: Joi.object().required()
   };
 
   return Joi.validate(user, schema);
