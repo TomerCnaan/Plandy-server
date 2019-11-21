@@ -1,0 +1,4 @@
+{
+  "jwtPrivateKey": "",
+  "db": "mongodb+srv://tomer:FUsiENZa@tomercluster-z0eyh.mongodb.net/Plandy?retryWrites=true&w=majority"
+}
