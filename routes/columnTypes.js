@@ -9,5 +9,6 @@ router.get("/", async (req, res) => {
 		.select("type options");
 	res.send(columnTypes);
 });
+//TODO: test columnTypes route.
 
 module.exports = router;

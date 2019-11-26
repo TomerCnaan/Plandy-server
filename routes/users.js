@@ -4,8 +4,18 @@ const mongoose = require("mongoose");
 const express = require("express");
 const router = express.Router();
 
+const auth = require("../middleware/auth");
 const { User, validate: validateUser } = require("../models/user");
 const { Company, validate: validateCompany } = require("../models/company");
+
+/*
+  get all the users from a specific company 
+*/
+router.get("/", auth, async (req, res) => {
+	const companyId = req.user.company;
+	const companyUsers = await User.find({ company: companyId }).sort("name");
+	res.send(companyUsers);
+});
 
 /*
  This route is resposnsible for handling user registration.
