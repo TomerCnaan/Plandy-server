@@ -74,5 +74,17 @@ function validateUser(user) {
 	return Joi.validate(user, schema);
 }
 
+function validateExistingUser(user) {
+	const schema = {
+		name: Joi.string()
+			.min(2)
+			.max(35)
+			.required()
+	};
+
+	return Joi.validate(user, schema);
+}
+
 exports.User = User;
 exports.validate = validateUser;
+exports.validateExisting = validateExistingUser;

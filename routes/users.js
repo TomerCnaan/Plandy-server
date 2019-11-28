@@ -5,11 +5,15 @@ const express = require("express");
 const router = express.Router();
 
 const auth = require("../middleware/auth");
-const { User, validate: validateUser } = require("../models/user");
+const {
+	User,
+	validate: validateUser,
+	validateExisting
+} = require("../models/user");
 const { Company, validate: validateCompany } = require("../models/company");
 
 /*
-  get all the users from a specific company 
+ get all the users from a specific company 
 */
 router.get("/", auth, async (req, res) => {
 	const companyId = req.user.company;
@@ -55,6 +59,26 @@ router.post("/", async (req, res) => {
 		.header("x-auth-token", token)
 		.header("access-control-expose-headers", "x-auth-token")
 		.send(_.pick(user, ["_id", "name", "email", "company"]));
+});
+
+/*
+ update user 
+*/
+router.put("/:id", auth, async (req, res) => {
+	const { error } = validateExisting(req.body);
+	if (error) return res.status(400).send(error.details[0].message);
+
+	const user = await User.findOneAndUpdate(
+		req.params.id,
+		{ name: req.body.name },
+		{ new: true }
+	);
+
+	if (!user)
+		return res.status(404).send("The user with the given ID was not found.");
+
+	res.send(user.name);
+	//TODO: test the update response
 });
 
 module.exports = router;
