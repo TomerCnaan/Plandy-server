@@ -68,17 +68,22 @@ router.put("/:id", auth, async (req, res) => {
 	const { error } = validateExisting(req.body);
 	if (error) return res.status(400).send(error.details[0].message);
 
-	const user = await User.findOneAndUpdate(
-		req.params.id,
-		{ name: req.body.name },
-		{ new: true }
-	);
+	let user;
+	if (req.user._id !== req.params.id)
+		return res.status(400).send("The user ID does not belong to you.");
 
+	try {
+		user = await User.findOneAndUpdate(
+			{ _id: new mongoose.Types.ObjectId(req.params.id) },
+			{ name: req.body.name },
+			{ new: true, useFindAndModify: false }
+		);
+	} catch (err) {
+		return res.status(404).send("The user with the given ID was not found.");
+	}
 	if (!user)
 		return res.status(404).send("The user with the given ID was not found.");
-
 	res.send(user.name);
-	//TODO: test the update response
 });
 
 module.exports = router;
