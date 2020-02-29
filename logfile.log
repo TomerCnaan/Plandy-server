@@ -3,3 +3,24 @@
 {"level":"info","message":"Listening on port 5000...","timestamp":"2020-02-23T10:40:50.768Z"}
 {"level":"info","message":"Listening on port 5000...","timestamp":"2020-02-24T06:43:01.246Z"}
 {"level":"info","message":"Listening on port 5000...","timestamp":"2020-02-25T11:38:37.790Z"}
+{"level":"info","message":"Listening on port 5000...","timestamp":"2020-02-19T19:13:22.804Z"}
+{"level":"info","message":"Listening on port 5000...","timestamp":"2020-02-19T20:53:06.979Z"}
+{"level":"info","message":"Listening on port 5000...","timestamp":"2020-02-19T20:55:15.742Z"}
+{"level":"info","message":"Listening on port 5000...","timestamp":"2020-02-23T16:37:08.769Z"}
+{"level":"info","message":"Listening on port 5000...","timestamp":"2020-02-23T19:51:11.888Z"}
+{"level":"info","message":"Listening on port 5000...","timestamp":"2020-02-24T17:32:13.389Z"}
+{"level":"info","message":"Listening on port 5000...","timestamp":"2020-02-29T09:30:32.561Z"}
+{"level":"info","message":"Listening on port 5000...","timestamp":"2020-02-29T18:41:29.703Z"}
+{"level":"info","message":"Listening on port 5000...","timestamp":"2020-02-29T18:44:09.102Z"}
+{"message":"cryptoRandomString is not defined","stack":"ReferenceError: cryptoRandomString is not defined\n    at router.post (C:\\coding\\Plandy\\Plandy-server\\routes\\users.js:72:16)\n    at process._tickCallback (internal/process/next_tick.js:68:7)","level":"error","timestamp":"2020-02-29T18:51:14.023Z"}
+{"level":"info","message":"Listening on port 5000...","timestamp":"2020-02-29T18:51:45.999Z"}
+{"level":"info","message":"Listening on port 5000...","timestamp":"2020-02-29T18:53:12.598Z"}
+{"level":"info","message":"Listening on port 5000...","timestamp":"2020-02-29T18:54:00.194Z"}
+{"level":"info","message":"Listening on port 5000...","timestamp":"2020-02-29T18:54:41.019Z"}
+{"level":"info","message":"Listening on port 5000...","timestamp":"2020-02-29T18:59:27.249Z"}
+{"level":"info","message":"Listening on port 5000...","timestamp":"2020-02-29T18:59:56.187Z"}
+{"level":"info","message":"Listening on port 5000...","timestamp":"2020-02-29T19:00:10.982Z"}
+{"level":"info","message":"Listening on port 5000...","timestamp":"2020-02-29T19:00:42.686Z"}
+{"level":"info","message":"Listening on port 5000...","timestamp":"2020-02-29T19:02:30.729Z"}
+{"message":"Joi is not defined","stack":"ReferenceError: Joi is not defined\n    at validateEmail (C:\\coding\\Plandy\\Plandy-server\\models\\emailTokens.js:14:10)\n    at router.post (C:\\coding\\Plandy\\Plandy-server\\routes\\users.js:76:20)\n    at process._tickCallback (internal/process/next_tick.js:68:7)","level":"error","timestamp":"2020-02-29T19:02:38.649Z"}
+{"level":"info","message":"Listening on port 5000...","timestamp":"2020-02-29T19:03:04.521Z"}

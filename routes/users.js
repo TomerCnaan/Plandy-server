@@ -1,5 +1,6 @@
 const _ = require("lodash");
 const bcrypt = require("bcrypt");
+const randomString = require("crypto-random-string");
 const mongoose = require("mongoose");
 const express = require("express");
 const router = express.Router();
@@ -11,6 +12,10 @@ const {
 	validateExisting
 } = require("../models/user");
 const { Company, validate: validateCompany } = require("../models/company");
+const {
+	Email_token,
+	validate: validateEmail
+} = require("../models/emailTokens");
 
 /*
  get all the users from a specific company 
@@ -58,7 +63,22 @@ router.post("/", async (req, res) => {
 	res
 		.header("x-auth-token", token)
 		.header("access-control-expose-headers", "x-auth-token")
-		.send(_.pick(user, ["_id", "name", "email", "company"]));
+		.send(_.pick(user, ["_id", "name", "email", "role", "company"]));
+});
+
+/*
+ send company invitation email to a given email (via gmail)
+*/
+router.post("/add", auth, async (req, res) => {
+	const companyId = req.user.company;
+	const companyName = await (await Company.findById(companyId)).get("name");
+
+	const { error } = validateEmail(req.body);
+	if (error) return res.status(400).send(error.details[0].message);
+	const emailAdress = req.body.email;
+
+	const token = randomString({ length: 10, type: "url-safe" }); // generate random token for the registration link
+	res.send(`email sent successfully. company: ${companyName}, token: ${token}`);
 });
 
 /*
