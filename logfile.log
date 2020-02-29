@@ -24,3 +24,23 @@
 {"level":"info","message":"Listening on port 5000...","timestamp":"2020-02-29T19:02:30.729Z"}
 {"message":"Joi is not defined","stack":"ReferenceError: Joi is not defined\n    at validateEmail (C:\\coding\\Plandy\\Plandy-server\\models\\emailTokens.js:14:10)\n    at router.post (C:\\coding\\Plandy\\Plandy-server\\routes\\users.js:76:20)\n    at process._tickCallback (internal/process/next_tick.js:68:7)","level":"error","timestamp":"2020-02-29T19:02:38.649Z"}
 {"level":"info","message":"Listening on port 5000...","timestamp":"2020-02-29T19:03:04.521Z"}
+{"level":"info","message":"Listening on port 5000...","timestamp":"2020-02-29T20:57:04.552Z"}
+{"level":"info","message":"Listening on port 5000...","timestamp":"2020-02-29T21:01:39.523Z"}
+{"level":"info","message":"Listening on port 5000...","timestamp":"2020-02-29T21:03:19.389Z"}
+{"level":"info","message":"Listening on port 5000...","timestamp":"2020-02-29T21:03:59.617Z"}
+{"level":"info","message":"Listening on port 5000...","timestamp":"2020-02-29T21:04:34.978Z"}
+{"level":"info","message":"Message sent: <fcbc128a-b5e1-2aa6-8a36-291320bbe7d6@gmail.com>","timestamp":"2020-02-29T21:04:41.935Z"}
+{"level":"info","message":"Listening on port 5000...","timestamp":"2020-02-29T21:06:38.008Z"}
+{"level":"info","message":"Listening on port 5000...","timestamp":"2020-02-29T21:07:56.247Z"}
+{"level":"info","message":"Message sent: <7c801207-be64-fe0c-4bb8-1afc72fd1865@gmail.com>","timestamp":"2020-02-29T21:08:05.761Z"}
+{"level":"info","message":"Listening on port 5000...","timestamp":"2020-02-29T21:09:18.253Z"}
+{"level":"info","message":"Listening on port 5000...","timestamp":"2020-02-29T21:09:33.815Z"}
+{"level":"info","message":"Listening on port 5000...","timestamp":"2020-02-29T21:09:58.135Z"}
+{"level":"info","message":"Listening on port 5000...","timestamp":"2020-02-29T21:16:56.862Z"}
+{"level":"info","message":"Message sent: <aafd5a15-a0c0-6694-4adb-20bf3b757ac1@gmail.com>","timestamp":"2020-02-29T21:17:10.009Z"}
+{"level":"info","message":"Listening on port 5000...","timestamp":"2020-02-29T21:20:31.657Z"}
+{"level":"info","message":"Message sent: <ffa966d7-4b27-c5ea-b219-3c259b77d7de@gmail.com>","timestamp":"2020-02-29T21:20:38.983Z"}
+{"level":"info","message":"Listening on port 5000...","timestamp":"2020-02-29T21:29:24.688Z"}
+{"level":"info","message":"Message sent: <d59cf6d6-4353-c6eb-9d3a-3e5180c6b832@gmail.com>","timestamp":"2020-02-29T21:29:33.875Z"}
+{"level":"info","message":"Listening on port 5000...","timestamp":"2020-02-29T21:32:46.468Z"}
+{"level":"info","message":"Message sent: <df20363e-89af-d9e0-44a0-56af887dca6a@gmail.com>","timestamp":"2020-02-29T21:32:52.100Z"}

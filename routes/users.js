@@ -5,6 +5,8 @@ const mongoose = require("mongoose");
 const express = require("express");
 const router = express.Router();
 
+const { sendMail } = require("../util/mailer");
+
 const auth = require("../middleware/auth");
 const {
 	User,
@@ -78,6 +80,13 @@ router.post("/add", auth, async (req, res) => {
 	const emailAdress = req.body.email;
 
 	const token = randomString({ length: 10, type: "url-safe" }); // generate random token for the registration link
+	let link = `http://plandy.online/join/${token}`;
+	if (!process.env.NODE_ENV) {
+		link = `http://localhost:3000/join/${token}`;
+	}
+
+	await sendMail(emailAdress, companyName, link);
+
 	res.send(`email sent successfully. company: ${companyName}, token: ${token}`);
 });
 
