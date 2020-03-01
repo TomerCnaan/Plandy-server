@@ -17,7 +17,7 @@ const { Company, validate: validateCompany } = require("../models/company");
 const {
 	Email_token,
 	validate: validateEmail
-} = require("../models/emailTokens");
+} = require("../models/emailToken");
 
 /*
  get all the users from a specific company 
@@ -54,6 +54,7 @@ router.post("/", async (req, res) => {
 		name: req.body.name,
 		email: req.body.email,
 		password: req.body.password,
+		role: "supervisor",
 		company: company._id
 	});
 
@@ -73,6 +74,7 @@ router.post("/", async (req, res) => {
 */
 router.post("/add", auth, async (req, res) => {
 	const companyId = req.user.company;
+	console.log(companyId);
 	const companyName = await (await Company.findById(companyId)).get("name");
 
 	const { error } = validateEmail(req.body);
@@ -87,7 +89,10 @@ router.post("/add", auth, async (req, res) => {
 
 	await sendMail(emailAdress, companyName, link);
 
-	res.send(`email sent successfully. company: ${companyName}, token: ${token}`);
+	const inviteToken = new Email_token({ token, company: companyId });
+	await inviteToken.save();
+
+	res.send(`email was sent successfully`);
 });
 
 /*

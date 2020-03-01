@@ -18,7 +18,7 @@ function sendMail(emailReceiver, company, link) {
 	let mailOptions = {
 		from: `Plandy <${config.get("emailUser")}>`,
 		to: emailReceiver,
-		subject: `Invitation to join the ${company} account on Plandy🎉`,
+		subject: `Invitation to join the ${company} account on Plandy🥳`,
 		html: emailbody
 	};
 

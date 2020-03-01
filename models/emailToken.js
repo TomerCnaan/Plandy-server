@@ -1,10 +1,16 @@
 const Joi = require("joi");
 const mongoose = require("mongoose");
 
+const { Company } = require("./company");
+
 const emailTokenSchema = new mongoose.Schema({
 	token: {
 		type: String,
 		required: true
+	},
+	company: {
+		type: mongoose.Schema.Types.ObjectId,
+		ref: "Company"
 	}
 });
 
