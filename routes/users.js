@@ -74,8 +74,11 @@ router.post("/", async (req, res) => {
 */
 router.post("/add", auth, async (req, res) => {
 	const companyId = req.user.company;
-	console.log(companyId);
-	const companyName = await (await Company.findById(companyId)).get("name");
+	const { name: companyName } = await Company.findById(companyId, {
+		name: 1,
+		_id: 0
+	});
+	console.log(companyName);
 
 	const { error } = validateEmail(req.body);
 	if (error) return res.status(400).send(error.details[0].message);
@@ -93,6 +96,50 @@ router.post("/add", auth, async (req, res) => {
 	await inviteToken.save();
 
 	res.send(`email was sent successfully`);
+});
+
+/*
+ adds user to an existing company
+*/
+router.post("/add/:token", async (req, res) => {
+	const tokenObject = await Email_token.findOne(
+		{ token: req.params.token },
+		{ company: 1, _id: 0 }
+	).populate("company", "name");
+	if (!tokenObject)
+		return res.status(404).send("The token provided is not a valid token");
+	await Email_token.deleteOne({ token: req.params.token });
+
+	const { company } = tokenObject;
+	const { _id, name } = company;
+
+	let user = {
+		name: req.body.name,
+		email: req.body.email,
+		password: req.body.password,
+		company: { name: name }
+	};
+
+	const { error } = validateUser(user);
+	if (error) return res.status(400).send(error.details[0].message);
+
+	const isUser = await User.findOne({ email: req.body.email });
+	if (isUser) return res.status(400).send("User already reagistered.");
+
+	user = new User({
+		...user,
+		company: _id
+	});
+
+	const salt = await bcrypt.genSalt(10);
+	user.password = await bcrypt.hash(user.password, salt);
+	await user.save();
+
+	const token = user.generateAuthToken();
+	res
+		.header("x-auth-token", token)
+		.header("access-control-expose-headers", "x-auth-token")
+		.send(_.pick(user, ["_id", "name", "email", "role", "company"]));
 });
 
 /*
