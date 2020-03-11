@@ -108,7 +108,6 @@ router.post("/add/:token", async (req, res) => {
 	).populate("company", "name");
 	if (!tokenObject)
 		return res.status(404).send("The token provided is not a valid token");
-	await Email_token.deleteOne({ token: req.params.token });
 
 	const { company } = tokenObject;
 	const { _id, name } = company;
@@ -134,6 +133,8 @@ router.post("/add/:token", async (req, res) => {
 	const salt = await bcrypt.genSalt(10);
 	user.password = await bcrypt.hash(user.password, salt);
 	await user.save();
+
+	await Email_token.deleteOne({ token: req.params.token });
 
 	const token = user.generateAuthToken();
 	res
