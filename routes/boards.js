@@ -16,6 +16,28 @@ TODO: add the other more complicated routes after finishing with the easy ones
  */
 
 /*
+	getting board names(this route is not for the full baord data)
+	gets all boards that are visible for the requesting user
+*/
+router.get("/", auth, async (req, res) => {
+	const userId = new mongoose.Types.ObjectId(req.user._id);
+	const companyId = new mongoose.Types.ObjectId(req.user.company);
+
+	// Query
+	const compnayBoards = await Board.find({
+		company: companyId
+	})
+		.or([
+			{ read_only_users: { $eq: userId } },
+			{ permitted_users: { $eq: userId } }
+		])
+		.sort({ name: 1 })
+		.select({ name: 1 });
+
+	return res.send(compnayBoards); //Array of board names and id's
+});
+
+/*
 	create a new board. Must be autenticated and an admin.
 */
 router.post("/", [auth, admin], async (req, res) => {
