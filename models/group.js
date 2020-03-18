@@ -10,7 +10,12 @@ const groupSchema = new mongoose.Schema({
 	color: {
 		type: String
 	},
-	tasks: [] //TODO: complete after adding the task model
+	tasks: [
+		{
+			type: mongoose.Schema.Types.ObjectId,
+			ref: "Task"
+		}
+	]
 });
 
 const Group = mongoose.model("Group", groupSchema);

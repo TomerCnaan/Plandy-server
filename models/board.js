@@ -17,12 +17,23 @@ const boardSchema = new mongoose.Schema({
 		type: mongoose.Schema.Types.ObjectId,
 		ref: "Company"
 	},
+	groups: [
+		{
+			type: mongoose.Schema.Types.ObjectId,
+			ref: "Group"
+		}
+	],
 	column_order: [
 		{
 			type: mongoose.Schema.Types.ObjectId,
 			ref: "Board_column"
 		}
 	],
+	owner: {
+		type: mongoose.Schema.Types.ObjectId,
+		ref: "User",
+		required: true
+	},
 	read_only_users: [
 		{
 			type: mongoose.Schema.Types.ObjectId,
@@ -36,8 +47,6 @@ const boardSchema = new mongoose.Schema({
 		}
 	]
 });
-// TODO: add board_column model, group model, task model.
-// TODO: add missing properties to the schema (see diagram at draw io)
 
 const Board = mongoose.model("Board", boardSchema);
 

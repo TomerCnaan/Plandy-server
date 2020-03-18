@@ -32,7 +32,7 @@ router.get("/", auth, async (req, res) => {
 			{ permitted_users: { $eq: userId } }
 		])
 		.sort({ name: 1 })
-		.select({ name: 1 });
+		.select({ name: 1, description: 1 });
 
 	return res.send(compnayBoards); //Array of board names and id's
 });
@@ -65,7 +65,9 @@ router.post("/", [auth, admin], async (req, res) => {
 	board = new Board({
 		name: req.body.name,
 		company: companyId,
+		gorups: [],
 		column_order: [],
+		owner: new mongoose.Types.ObjectId(req.user._id),
 		read_only_users: board_users,
 		permitted_users: [new mongoose.Types.ObjectId(req.user._id)]
 	});
