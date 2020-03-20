@@ -64,6 +64,7 @@ router.post("/", [auth, admin], async (req, res) => {
 
 	board = new Board({
 		name: req.body.name,
+		type: req.body.type,
 		company: companyId,
 		gorups: [],
 		column_order: [],

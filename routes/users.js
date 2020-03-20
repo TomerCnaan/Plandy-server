@@ -8,6 +8,8 @@ const router = express.Router();
 const { sendMail } = require("../util/mailer");
 
 const auth = require("../middleware/auth");
+
+const { Board } = require("../models/board");
 const {
 	User,
 	validate: validateUser,
@@ -135,6 +137,12 @@ router.post("/add/:token", async (req, res) => {
 	await user.save();
 
 	await Email_token.deleteOne({ token: req.params.token });
+
+	// TODO: Add user to public boards
+	// let publicBoards = await Board.find({
+	// 	company: _id,
+	// 	type: "public"
+	// });
 
 	const token = user.generateAuthToken();
 	res

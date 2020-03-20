@@ -13,6 +13,11 @@ const boardSchema = new mongoose.Schema({
 		default: "Board description",
 		maxlength: 100
 	},
+	type: {
+		type: String,
+		enum: ["public", "private"],
+		required: true
+	},
 	company: {
 		type: mongoose.Schema.Types.ObjectId,
 		ref: "Company"
