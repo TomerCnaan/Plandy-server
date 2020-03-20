@@ -8,12 +8,7 @@ const admin = require("../middleware/admin");
 
 const { Board, validateBoard } = require("../models/board");
 const { User } = require("../models/user");
-
-/*
-TODO: get: route for getting all the boards - id's and names - that the requesting user can see
-TODO: post: route for creating a new board
-TODO: add the other more complicated routes after finishing with the easy ones
- */
+const { Group } = require("../models/group");
 
 /*
 	getting board names(this route is not for the full baord data)
@@ -76,6 +71,21 @@ router.post("/", [auth, admin], async (req, res) => {
 	await board.save();
 
 	res.send(_.pick(board, ["_id", "name", "description"]));
+});
+
+/*
+	get board data for a specific board
+*/
+router.get("/:id", auth, async (req, res) => {
+	// TODO: write this route
+	// const board = await Board.findById(req.params.id).populate("groups");
+	const { name, description, groups, column_order } = await Board.findById(
+		req.params.id,
+		{ name: 1, groups: 1, column_order: 1, description: 1 }
+	);
+	console.log(groups);
+
+	res.send("test");
 });
 
 module.exports = router;
