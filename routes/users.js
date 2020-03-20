@@ -85,6 +85,14 @@ router.post("/add", auth, async (req, res) => {
 	const { error } = validateEmail(req.body);
 	if (error) return res.status(400).send(error.details[0].message);
 	const emailAdress = req.body.email;
+	const existingUser = User.findOne({
+		email: emailAdress,
+		company: new mongoose.Types.ObjectId(companyId)
+	});
+	if (existingUser)
+		return res
+			.status(400)
+			.send("The user with the given email already exists in this company.");
 
 	const token = randomString({ length: 10, type: "url-safe" }); // generate random token for the registration link
 	let link = `http://plandy.online/join/${token}`;
@@ -134,15 +142,25 @@ router.post("/add/:token", async (req, res) => {
 
 	const salt = await bcrypt.genSalt(10);
 	user.password = await bcrypt.hash(user.password, salt);
-	await user.save();
+	user = await user.save();
 
 	await Email_token.deleteOne({ token: req.params.token });
 
 	// TODO: Add user to public boards
-	// let publicBoards = await Board.find({
-	// 	company: _id,
-	// 	type: "public"
-	// });
+	const result = await Board.update(
+		{
+			// find
+			company: _id,
+			type: "public"
+		},
+		{
+			// update
+			$push: {
+				read_only_users: user._id //new mongoose.Types.ObjectId(user._id)
+			}
+		},
+		{ multi: true }
+	);
 
 	const token = user.generateAuthToken();
 	res
