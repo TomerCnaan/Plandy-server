@@ -9,6 +9,7 @@ const admin = require("../middleware/admin");
 const { Board, validateBoard } = require("../models/board");
 const { User } = require("../models/user");
 const { Group } = require("../models/group");
+const { Task } = require("../models/task");
 
 /*
 	getting board names(this route is not for the full baord data)
@@ -78,14 +79,23 @@ router.post("/", [auth, admin], async (req, res) => {
 */
 router.get("/:id", auth, async (req, res) => {
 	// TODO: write this route
-	// const board = await Board.findById(req.params.id).populate("groups");
-	const { name, description, groups, column_order } = await Board.findById(
-		req.params.id,
-		{ name: 1, groups: 1, column_order: 1, description: 1 }
-	);
-	console.log(groups);
+	// const { name, description, groups, column_order } = await Board.findById(req.params.id).populate("groups");
+	const board = await Board.findOne({
+		_id: req.params.id,
+		company: new mongoose.Types.ObjectId(req.user.company) //TODO: check if user is in the board
+	})
+		.populate({
+			path: "groups",
+			populate: { path: "tasks" }
+		})
+		// .populate({
+		// 	path: "groups.tasks.column_values",
+		// 	populate: { path: "columnType" }
+		// })
+		.select({ name: 1, groups: 1, column_order: 1, description: 1 });
+	console.log(board);
 
-	res.send("test");
+	res.send(board);
 });
 
 module.exports = router;
