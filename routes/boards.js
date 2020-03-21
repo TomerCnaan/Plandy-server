@@ -10,6 +10,8 @@ const { Board, validateBoard } = require("../models/board");
 const { User } = require("../models/user");
 const { Group } = require("../models/group");
 const { Task } = require("../models/task");
+const { Board_column } = require("../models/boardColumn");
+const { Column_type } = require("../models/columnType");
 
 /*
 	getting board names(this route is not for the full baord data)
@@ -78,22 +80,25 @@ router.post("/", [auth, admin], async (req, res) => {
 	get board data for a specific board
 */
 router.get("/:id", auth, async (req, res) => {
-	// TODO: write this route
-	// const { name, description, groups, column_order } = await Board.findById(req.params.id).populate("groups");
 	const board = await Board.findOne({
 		_id: req.params.id,
-		company: new mongoose.Types.ObjectId(req.user.company) //TODO: check if user is in the board
+		company: new mongoose.Types.ObjectId(req.user.company)
 	})
 		.populate({
 			path: "groups",
-			populate: { path: "tasks" }
+			populate: {
+				path: "tasks",
+				model: Task,
+				populate: {
+					path: "column_values.columnType",
+					model: Column_type
+				}
+			}
 		})
-		// .populate({
-		// 	path: "groups.tasks.column_values",
-		// 	populate: { path: "columnType" }
-		// })
+		.populate({ path: "column_order", populate: { path: "columnType" } })
 		.select({ name: 1, groups: 1, column_order: 1, description: 1 });
-	console.log(board);
+
+	// TODO: finish the route(think of tests)
 
 	res.send(board);
 });
