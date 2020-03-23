@@ -80,6 +80,9 @@ router.post("/", [auth, admin], async (req, res) => {
 	get board data for a specific board
 */
 router.get("/:id", auth, async (req, res) => {
+	if (!req.params.id.match(/^[0-9a-fA-F]{24}$/))
+		return res.status(400).send("Invalid board id");
+
 	const board = await Board.findOne({
 		_id: req.params.id,
 		company: new mongoose.Types.ObjectId(req.user.company)
