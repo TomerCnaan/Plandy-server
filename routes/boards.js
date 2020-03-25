@@ -99,11 +99,25 @@ router.get("/:id", auth, async (req, res) => {
 			}
 		})
 		.populate({ path: "column_order", populate: { path: "columnType" } })
-		.select({ name: 1, groups: 1, column_order: 1, description: 1 });
+		.select({
+			name: 1,
+			groups: 1,
+			column_order: 1,
+			description: 1,
+			owner: 1,
+			permitted_users: 1
+		});
 
-	// TODO: finish the route(think of tests)
+	let permitted = false;
+	if (board.permitted_users.includes(req.user._id)) permitted = true;
 
-	res.send(board);
+	console.log(board.permitted_users);
+	const boardObj = board.toObject();
+	delete boardObj.permitted_users;
+	boardObj.isPermitted = permitted;
+	console.log(boardObj.permitted_users);
+
+	res.send(boardObj);
 });
 
 module.exports = router;
