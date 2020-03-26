@@ -111,11 +111,9 @@ router.get("/:id", auth, async (req, res) => {
 	let permitted = false;
 	if (board.permitted_users.includes(req.user._id)) permitted = true;
 
-	console.log(board.permitted_users);
 	const boardObj = board.toObject();
 	delete boardObj.permitted_users;
 	boardObj.isPermitted = permitted;
-	console.log(boardObj.permitted_users);
 
 	res.send(boardObj);
 });
