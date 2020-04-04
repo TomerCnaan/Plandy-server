@@ -379,3 +379,12 @@
 {"level":"info","message":"Message sent: <65e6e488-0888-be07-79c5-378b6f2c36ad@gmail.com>","timestamp":"2020-04-04T12:57:45.571Z"}
 {"message":"Cannot set headers after they are sent to the client","stack":"Error [ERR_HTTP_HEADERS_SENT]: Cannot set headers after they are sent to the client\n    at ServerResponse.setHeader (_http_outgoing.js:470:11)\n    at ServerResponse.header (C:\\coding\\Plandy\\Plandy-server\\node_modules\\express\\lib\\response.js:771:10)\n    at ServerResponse.send (C:\\coding\\Plandy\\Plandy-server\\node_modules\\express\\lib\\response.js:170:12)\n    at router.post (C:\\coding\\Plandy\\Plandy-server\\routes\\users.js:118:6)\n    at process._tickCallback (internal/process/next_tick.js:68:7)","level":"error","timestamp":"2020-04-04T12:57:55.366Z"}
 {"level":"info","message":"Message sent: <4e957ef5-3317-a4a6-72a2-39193e93edab@gmail.com>","timestamp":"2020-04-04T12:57:56.702Z"}
+{"level":"info","message":"Listening on port 5000...","timestamp":"2020-04-04T12:58:18.401Z"}
+{"level":"info","message":"Listening on port 5000...","timestamp":"2020-04-04T15:54:26.061Z"}
+{"level":"info","message":"Message sent: <a34c4b7e-c89d-4ac9-05ca-7d04b91747fa@gmail.com>","timestamp":"2020-04-04T15:55:47.377Z"}
+{"level":"info","message":"Message sent: <c7f5cfc5-e9a7-db39-62be-6631ff85a825@gmail.com>","timestamp":"2020-04-04T15:56:42.414Z"}
+{"level":"info","message":"Listening on port 5000...","timestamp":"2020-04-04T15:57:09.164Z"}
+{"level":"info","message":"Message sent: <8ca3d8e2-5974-eed8-ae54-3e2e632710f3@gmail.com>","timestamp":"2020-04-04T15:57:18.594Z"}
+{"level":"info","message":"Listening on port 5000...","timestamp":"2020-04-04T15:57:56.511Z"}
+{"level":"info","message":"Message sent: <d7d658d1-4f10-1d74-e135-36868967718c@gmail.com>","timestamp":"2020-04-04T15:58:00.581Z"}
+{"level":"info","message":"Listening on port 5000...","timestamp":"2020-04-04T15:59:07.236Z"}

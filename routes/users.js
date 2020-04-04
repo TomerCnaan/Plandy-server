@@ -80,25 +80,19 @@ router.post("/add", auth, async (req, res) => {
 		name: 1,
 		_id: 0,
 	});
-	console.log(companyName);
 
 	const { error } = validateEmail(req.body);
 	if (error) return res.status(400).send(error.details[0].message);
 	const emailAdress = req.body.email;
-	const existingUser = User.findOne(
-		{
-			email: emailAdress,
-			company: new mongoose.Types.ObjectId(companyId),
-		},
-		function (err, result) {
-			if (result)
-				return res
-					.status(400)
-					.send(
-						"The user with the given email already exists in this company."
-					);
-		}
-	);
+
+	const existingUser = await User.findOne({
+		email: emailAdress,
+		company: new mongoose.Types.ObjectId(companyId),
+	});
+	if (existingUser)
+		return res
+			.status(400)
+			.send("The user with the given email already exists in this company.");
 
 	const token = randomString({ length: 10, type: "url-safe" }); // generate random token for the registration link
 	let link = `http://plandy.online/join/${token}`;
