@@ -6,6 +6,7 @@ const roles = require("../routes/roles");
 const columnTypes = require("../routes/columnTypes");
 const boards = require("../routes/boards");
 const groups = require("../routes/groups");
+const tasks = require("../routes/tasks");
 const columns = require("../routes/columns");
 const error = require("../middleware/error");
 
@@ -17,6 +18,7 @@ module.exports = function (app) {
 	app.use("/api/column-types", columnTypes);
 	app.use("/api/boards", boards);
 	app.use("/api/groups", groups);
+	app.use("/api/tasks", tasks);
 	app.use("/api/columns", columns);
 	app.use(error);
 };
