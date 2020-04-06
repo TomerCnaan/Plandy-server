@@ -73,6 +73,8 @@ router.put("/outer-reorder", auth, async (req, res) => {
 	let destinationGroup = await Group.findById(destinationGroupId);
 	if (!sourceGroup || !destinationGroup)
 		return res.status(400).send("Invalid source / destination group id.");
+	// sourceGroup = sourceGroup.toObject();
+	// destinationGroup = destinationGroup.toObject();
 
 	const sourceGroupTasks = sourceGroup.tasks.map((task) => String(task));
 	if (!sourceGroupTasks.includes(taskIdToMove))
@@ -83,13 +85,15 @@ router.put("/outer-reorder", auth, async (req, res) => {
 
 	const indexToMove = sourceGroupTasks.indexOf(taskIdToMove);
 	sourceGroupTasks.splice(indexToMove, 1);
-	const destinationGroupTasks = destinationGroup.tasks.map((task) =>
+	let destinationGroupTasks = destinationGroup.tasks.map((task) =>
 		String(task)
 	);
+	destinationGroupTasks = Array.from(destinationGroupTasks);
 	destinationGroupTasks.splice(newIndex, 0, taskIdToMove);
 
 	sourceGroup.tasks = sourceGroupTasks;
 	await sourceGroup.save();
+
 	destinationGroup.tasks = destinationGroupTasks;
 	await destinationGroup.save();
 
