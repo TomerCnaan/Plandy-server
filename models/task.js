@@ -29,7 +29,7 @@ const Task = mongoose.model("Task", taskSchema);
 
 // TODO: Add validatioin functions
 
-// Validate reorder of task inside a specific group
+// Validate reorder of a task inside a specific group
 function validateReorder(req) {
 	const schema = {
 		boardId: Joi.objectId().required(),
@@ -40,6 +40,20 @@ function validateReorder(req) {
 	return Joi.validate(req, schema);
 }
 
+// Validate reorder of a task that moved to a different group
+function validateOuterReorder(req) {
+	const schema = {
+		boardId: Joi.objectId().required(),
+		sourceGroupId: Joi.objectId().required(),
+		destinationGroupId: Joi.objectId().required(),
+		taskIdToMove: Joi.objectId().required(),
+		newIndex: Joi.number().required(),
+	};
+
+	return Joi.validate(req, schema);
+}
+
 exports.validateReorder = validateReorder;
+exports.validateOuterReorder = validateOuterReorder;
 exports.Column_value = Column_value;
 exports.Task = Task;
