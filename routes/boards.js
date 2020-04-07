@@ -6,7 +6,12 @@ const router = express.Router();
 const auth = require("../middleware/auth");
 const admin = require("../middleware/admin");
 
-const { Board, validateBoard } = require("../models/board");
+const {
+	Board,
+	validateBoard,
+	validateDelete,
+	validateType,
+} = require("../models/board");
 const { User } = require("../models/user");
 const { Group } = require("../models/group");
 const { Task } = require("../models/task");
@@ -23,11 +28,11 @@ router.get("/", auth, async (req, res) => {
 
 	// Query
 	const compnayBoards = await Board.find({
-		company: companyId
+		company: companyId,
 	})
 		.or([
 			{ read_only_users: { $eq: userId } },
-			{ permitted_users: { $eq: userId } }
+			{ permitted_users: { $eq: userId } },
 		])
 		.sort({ name: 1 })
 		.select({ name: 1, description: 1 });
@@ -53,10 +58,10 @@ router.post("/", [auth, admin], async (req, res) => {
 	if (req.body.type === "public") {
 		board_users = await User.find({
 			_id: { $ne: req.user._id },
-			company: companyId
+			company: companyId,
 		}).select("_id");
 		board_users = board_users.map(
-			user => new mongoose.Types.ObjectId(user._id)
+			(user) => new mongoose.Types.ObjectId(user._id)
 		);
 	}
 
@@ -68,7 +73,7 @@ router.post("/", [auth, admin], async (req, res) => {
 		column_order: [],
 		owner: new mongoose.Types.ObjectId(req.user._id),
 		read_only_users: board_users,
-		permitted_users: [new mongoose.Types.ObjectId(req.user._id)]
+		permitted_users: [new mongoose.Types.ObjectId(req.user._id)],
 	});
 
 	await board.save();
@@ -85,7 +90,7 @@ router.get("/:id", auth, async (req, res) => {
 
 	const board = await Board.findOne({
 		_id: req.params.id,
-		company: new mongoose.Types.ObjectId(req.user.company)
+		company: new mongoose.Types.ObjectId(req.user.company),
 	})
 		.populate({
 			path: "groups",
@@ -94,9 +99,9 @@ router.get("/:id", auth, async (req, res) => {
 				model: Task,
 				populate: {
 					path: "column_values.columnType",
-					model: Column_type
-				}
-			}
+					model: Column_type,
+				},
+			},
 		})
 		.populate({ path: "column_order", populate: { path: "columnType" } })
 		.select({
@@ -105,7 +110,7 @@ router.get("/:id", auth, async (req, res) => {
 			column_order: 1,
 			description: 1,
 			owner: 1,
-			permitted_users: 1
+			permitted_users: 1,
 		});
 
 	let permitted = false;
@@ -117,5 +122,58 @@ router.get("/:id", auth, async (req, res) => {
 
 	res.send(boardObj);
 });
+
+/*
+	Delete a board by id.
+*/
+router.delete("/:id", auth, async (req, res) => {
+	const id = req.params.id;
+
+	const { error } = validateDelete(req.params);
+	if (error) return res.status(400).send(error.details[0].message);
+
+	const board = await Board.findByIdAndRemove(id, { useFindAndModify: false });
+	if (!board) return res.status(400).send("Invalid board id.");
+
+	res.send(board);
+});
+
+// TODO: update board routes - change type, description, make user permitted or read-only.
+
+router.put("/type", auth, async (req, res) => {
+	const { type, boardId } = req.body;
+
+	const { error } = validateType(req.body);
+	if (error) res.status(400).send(error.details[0].message);
+
+	let board = await Board.findById(boardId);
+	if (!board) return res.status(400).send("Invalid board id.");
+
+	if (String(board.owner) !== req.user._id)
+		return res
+			.status(403)
+			.send("You have no permission to change to board type.");
+
+	if (String(board.type) !== "public" && type === "public") {
+		// add all company users to the board if type converted to public.
+		const userInBoard = board.permitted_users.concat(board.read_only_users);
+		console.log(userInBoard);
+		let usersToAdd = await User.find({ company: board.company })
+			.where("_id")
+			.nin(userInBoard)
+			.select("_id");
+		usersToAdd = usersToAdd.map((user) => user._id);
+		await Board.update(
+			{ _id: boardId },
+			{ $push: { read_only_users: { $each: usersToAdd } } }
+		);
+	}
+
+	board.type = type;
+	await board.save();
+	res.send(_.pick(board, ["type", "_id"]));
+});
+
+// TODO: post - add users to a private board.
 
 module.exports = router;

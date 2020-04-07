@@ -6,51 +6,51 @@ const boardSchema = new mongoose.Schema({
 		type: String,
 		required: true,
 		minlength: 2,
-		maxlength: 25
+		maxlength: 25,
 	},
 	description: {
 		type: String,
 		default: "Board description",
-		maxlength: 100
+		maxlength: 100,
 	},
 	type: {
 		type: String,
 		enum: ["public", "private"],
-		required: true
+		required: true,
 	},
 	company: {
 		type: mongoose.Schema.Types.ObjectId,
-		ref: "Company"
+		ref: "Company",
 	},
 	groups: [
 		{
 			type: mongoose.Schema.Types.ObjectId,
-			ref: "Group"
-		}
+			ref: "Group",
+		},
 	],
 	column_order: [
 		{
 			type: mongoose.Schema.Types.ObjectId,
-			ref: "Board_column"
-		}
+			ref: "Board_column",
+		},
 	],
 	owner: {
 		type: mongoose.Schema.Types.ObjectId,
 		ref: "User",
-		required: true
+		required: true,
 	},
 	read_only_users: [
 		{
 			type: mongoose.Schema.Types.ObjectId,
-			ref: "User"
-		}
+			ref: "User",
+		},
 	],
 	permitted_users: [
 		{
 			type: mongoose.Schema.Types.ObjectId,
-			ref: "User"
-		}
-	]
+			ref: "User",
+		},
+	],
 });
 
 const Board = mongoose.model("Board", boardSchema);
@@ -60,22 +60,33 @@ const Board = mongoose.model("Board", boardSchema);
 // Validation for adding a new board
 function validateBoard(board) {
 	const schema = {
-		name: Joi.string()
-			.min(2)
-			.max(20)
-			.required(),
-		type: Joi.string()
-			.valid("public", "private")
-			.required()
+		name: Joi.string().min(2).max(20).required(),
+		type: Joi.string().valid("public", "private").required(),
 	};
 
 	return Joi.validate(board, schema);
 }
 
-// function updateBoardStrings(param) {
-//     if (param.name)
+// Validation for deleting a board (checks if valid objectId)
+function validateDelete(params) {
+	const schema = {
+		id: Joi.objectId().required(),
+	};
 
-// }
+	return Joi.validate(params, schema);
+}
 
-exports.Board = Board;
+// validation for chaning the type of the board
+function validateType(req) {
+	const schema = {
+		type: Joi.string().valid("private", "public").required(),
+		boardId: Joi.objectId().required(),
+	};
+
+	return Joi.validate(req, schema);
+}
+
+exports.validateType = validateType;
+exports.validateDelete = validateDelete;
 exports.validateBoard = validateBoard;
+exports.Board = Board;

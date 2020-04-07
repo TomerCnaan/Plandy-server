@@ -146,7 +146,6 @@ router.post("/add/:token", async (req, res) => {
 
 	await Email_token.deleteOne({ token: req.params.token });
 
-	// TODO: Add user to public boards
 	const result = await Board.update(
 		{
 			// find
