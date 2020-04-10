@@ -111,6 +111,7 @@ router.get("/:id", auth, async (req, res) => {
 			description: 1,
 			owner: 1,
 			permitted_users: 1,
+			type: 1,
 		});
 
 	let permitted = false;
@@ -140,6 +141,9 @@ router.delete("/:id", auth, async (req, res) => {
 
 // TODO: update board routes - change type, description, make user permitted or read-only.
 
+/*
+	Change the type of a board
+ */
 router.put("/type", auth, async (req, res) => {
 	const { type, boardId } = req.body;
 
