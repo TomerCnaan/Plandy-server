@@ -8,11 +8,42 @@ const auth = require("../middleware/auth");
 
 const {
 	Task,
+	validateNew,
 	validateReorder,
 	validateOuterReorder,
 } = require("../models/task");
 const { Group } = require("../models/group");
 const { Board } = require("../models/board");
+
+// create a new task
+router.post("/", auth, async (req, res) => {
+	const { error } = validateNew(req.body);
+	if (error) return res.status(400).send(error.details[0].message);
+
+	const { boardId, groupId } = req.body;
+
+	const board = await Board.findById(boardId);
+	if (!board) return res.status(400).send("Invalid board id.");
+
+	const permittedUsers = board.permitted_users.map((id) => String(id));
+	if (!permittedUsers.includes(req.user._id))
+		return res
+			.status(403)
+			.send("You don't have a permission to change the groups order.");
+
+	const group = await Group.findById(groupId);
+	if (!group) return res.status(400).send("Invalid group id.");
+
+	let newTask = new Task();
+	newTask.save();
+
+	const groupTasks = group.tasks.map((task) => String(task));
+	groupTasks.push(newTask._id);
+	group.tasks = groupTasks;
+	group.save();
+
+	return res.send(newTask);
+});
 
 // TODO: test this route
 // reorder the tasks inside a group
@@ -28,7 +59,7 @@ router.put("/reorder", auth, async (req, res) => {
 	if (String(board.owner) !== req.user._id)
 		return res
 			.status(403)
-			.send("You don't have a permission to change the groups order.");
+			.send("You don't have a permission to change the tasks order.");
 
 	let group = await Group.findById(groupId);
 	if (!group) return res.status(400).send("Invalid group id.");
@@ -64,7 +95,7 @@ router.put("/outer-reorder", auth, async (req, res) => {
 	if (String(board.owner) !== req.user._id)
 		return res
 			.status(403)
-			.send("You don't have a permission to change the groups order.");
+			.send("You don't have a permission to change the tasks order.");
 
 	if (sourceGroupId === destinationGroupId)
 		return res.status(400).send("Group id's should be unique");

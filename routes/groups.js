@@ -6,8 +6,28 @@ const router = express.Router();
 
 const auth = require("../middleware/auth");
 
-const { Group, validateReorder } = require("../models/group");
+const { Group, validateReorder, validateNew } = require("../models/group");
 const { Board } = require("../models/board");
+
+router.post("/", auth, async (req, res) => {
+	const { error } = validateNew(req.body);
+	if (error) return res.status(400).send(error.details[0].message);
+
+	const { boardId } = req.body;
+
+	const board = await Board.findById(boardId);
+	if (!board) return res.status(400).send("Invalid board id.");
+
+	const newGroup = new Group();
+	newGroup.save();
+
+	const boardGroups = board.groups.map((group) => String(group));
+	boardGroups.push(newGroup._id);
+	board.groups = boardGroups;
+	board.save();
+
+	return res.send(newGroup);
+});
 
 // reorder the groups of a board.
 router.put("/reorder", auth, async (req, res) => {
