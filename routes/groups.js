@@ -9,6 +9,7 @@ const auth = require("../middleware/auth");
 const { Group, validateReorder, validateNew } = require("../models/group");
 const { Board } = require("../models/board");
 
+// add new group to a board
 router.post("/", auth, async (req, res) => {
 	const { error } = validateNew(req.body);
 	if (error) return res.status(400).send(error.details[0].message);
