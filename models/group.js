@@ -32,6 +32,16 @@ function validateNew(req) {
 	return Joi.validate(req, schema);
 }
 
+// Delete group from a board
+function validateDelete(req) {
+	const schema = {
+		boardId: Joi.objectId().required(),
+		groupId: Joi.objectId().required(),
+	};
+
+	return Joi.validate(req, schema);
+}
+
 // Validate reorder of groups in a specific board
 function validateReorder(req) {
 	const schema = {
@@ -43,5 +53,6 @@ function validateReorder(req) {
 }
 
 exports.validateNew = validateNew;
+exports.validateDelete = validateDelete;
 exports.validateReorder = validateReorder;
 exports.Group = Group;

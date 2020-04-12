@@ -6,7 +6,12 @@ const router = express.Router();
 
 const auth = require("../middleware/auth");
 
-const { Group, validateReorder, validateNew } = require("../models/group");
+const {
+	Group,
+	validateReorder,
+	validateNew,
+	validateDelete,
+} = require("../models/group");
 const { Board } = require("../models/board");
 
 // add new group to a board
@@ -54,6 +59,34 @@ router.put("/reorder", auth, async (req, res) => {
 	board.groups = groupsArray;
 	const updatedBoard = await board.save();
 	res.send(updatedBoard);
+});
+
+// delete a group from a board
+router.delete("/", auth, async (req, res) => {
+	const { error } = validateDelete(req.body);
+	if (error) return res.status(400).send(error.details[0].message);
+
+	const { boardId, groupId } = req.body;
+
+	const board = await Board.findById(boardId);
+	if (!board) return res.status(400).send("Invalid board id.");
+
+	if (String(board.owner) !== req.user._id)
+		return res.status(403).send("You don't have a permission delete a group.");
+
+	let boardGroups = board.groups.map((group) => String(group));
+	if (!boardGroups.includes(groupId))
+		return res.status(400).send("Invalid group id.");
+
+	const deletedGroup = await Group.findByIdAndRemove(groupId, {
+		useFindAndModify: false,
+	});
+
+	_.pull(boardGroups, groupId); //remove group id from groups list
+	board.groups = boardGroups;
+	await board.save();
+
+	res.send(deletedGroup);
 });
 
 module.exports = router;

@@ -29,10 +29,25 @@ const Task = mongoose.model("Task", taskSchema);
 
 // TODO: Add validatioin functions
 
+/*
+	validation
+ */
+
+// validate task add
 function validateNew(req) {
 	const schema = {
 		boardId: Joi.objectId().required(),
 		groupId: Joi.objectId().required(),
+	};
+
+	return Joi.validate(req, schema);
+}
+
+function validateDelete(req) {
+	const schema = {
+		boardId: Joi.objectId().required(),
+		groupId: Joi.objectId().required(),
+		taskId: Joi.objectId().required(),
 	};
 
 	return Joi.validate(req, schema);
@@ -63,6 +78,7 @@ function validateOuterReorder(req) {
 }
 
 exports.validateNew = validateNew;
+exports.validateDelete = validateDelete;
 exports.validateReorder = validateReorder;
 exports.validateOuterReorder = validateOuterReorder;
 exports.Column_value = Column_value;
