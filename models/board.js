@@ -86,6 +86,16 @@ function validateType(req) {
 	return Joi.validate(req, schema);
 }
 
+function validateDescription(req) {
+	const schema = {
+		boardId: Joi.objectId().required(),
+		description: Joi.string().required().max(100),
+	};
+
+	return Joi.validate(req, schema);
+}
+
+exports.validateDescription = validateDescription;
 exports.validateType = validateType;
 exports.validateDelete = validateDelete;
 exports.validateBoard = validateBoard;
