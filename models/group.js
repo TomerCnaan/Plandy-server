@@ -52,6 +52,17 @@ function validateReorder(req) {
 	return Joi.validate(req, schema);
 }
 
+function validateTitle(req) {
+	const schema = {
+		boardId: Joi.objectId().required(),
+		groupId: Joi.objectId().required(),
+		title: Joi.string().required().max(25).min(2),
+	};
+
+	return Joi.validate(req, schema);
+}
+
+exports.validateTitle = validateTitle;
 exports.validateNew = validateNew;
 exports.validateDelete = validateDelete;
 exports.validateReorder = validateReorder;

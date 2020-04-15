@@ -11,6 +11,7 @@ const {
 	validateReorder,
 	validateNew,
 	validateDelete,
+	validateTitle,
 } = require("../models/group");
 const { Board } = require("../models/board");
 
@@ -87,6 +88,35 @@ router.delete("/", auth, async (req, res) => {
 	await board.save();
 
 	res.send(deletedGroup);
+});
+
+// update group title
+router.put("/title", auth, async (req, res) => {
+	const { error } = validateTitle(req.body);
+	if (error) return res.status(400).send(error.details[0].message);
+
+	const { boardId, groupId, title } = req.body;
+
+	const board = await Board.findById(boardId);
+	if (!board) return res.status(400).send("Invalid board id.");
+
+	if (String(board.owner) !== req.user._id)
+		return res
+			.status(403)
+			.send("You don't have a permission to change the title.");
+
+	let boardGroups = board.groups.map((group) => String(group));
+	if (!boardGroups.includes(groupId))
+		return res.status(400).send("Invalid group id.");
+
+	const group = await Group.findByIdAndUpdate(
+		groupId,
+		{ title },
+		{ new: true },
+		{ useFindAndModify: false }
+	);
+
+	return res.send(group);
 });
 
 module.exports = router;
