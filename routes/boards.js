@@ -11,6 +11,7 @@ const {
 	validateBoard,
 	validateDelete,
 	validateType,
+	validateDescription,
 } = require("../models/board");
 const { User } = require("../models/user");
 const { Group } = require("../models/group");
@@ -176,6 +177,29 @@ router.put("/type", auth, async (req, res) => {
 	board.type = type;
 	await board.save();
 	res.send(_.pick(board, ["type", "_id"]));
+});
+
+/*
+	update board description
+ */
+router.put("/description", auth, async (req, res) => {
+	const { error } = validateDescription(req.body);
+	if (error) return res.status(400).send(error.details[0].message);
+
+	const { boardId, description } = req.body;
+
+	const board = await Board.findById(boardId);
+	if (!board) return res.status(400).send("Invalid board id.");
+
+	if (String(board.owner) !== req.user._id)
+		return res
+			.status(403)
+			.send("You have no permission to change to board type.");
+
+	board.description = description;
+	board.save();
+
+	return res.send(description);
 });
 
 // TODO: post - add users to a private board.
