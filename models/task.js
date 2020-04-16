@@ -20,7 +20,7 @@ const taskSchema = new mongoose.Schema({
 		type: String,
 		default: "Task Name",
 		minlength: 2,
-		maxlength: 25,
+		maxlength: 50,
 	},
 	column_values: [columnValueSchema],
 });
@@ -43,6 +43,7 @@ function validateNew(req) {
 	return Joi.validate(req, schema);
 }
 
+// validate delete task
 function validateDelete(req) {
 	const schema = {
 		boardId: Joi.objectId().required(),
@@ -77,6 +78,18 @@ function validateOuterReorder(req) {
 	return Joi.validate(req, schema);
 }
 
+function validateName(req) {
+	const schema = {
+		boardId: Joi.objectId().required(),
+		groupId: Joi.objectId().required(),
+		taskId: Joi.objectId().required(),
+		name: Joi.string().min(2).max(50).required(),
+	};
+
+	return Joi.validate(req, schema);
+}
+
+exports.validateName = validateName;
 exports.validateNew = validateNew;
 exports.validateDelete = validateDelete;
 exports.validateReorder = validateReorder;

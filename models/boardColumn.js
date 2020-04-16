@@ -25,5 +25,14 @@ function validateReorder(req) {
 	return Joi.validate(req, schema);
 }
 
-exports.Board_column = Board_column;
+// Validate add column to a board
+function validateAdd(req) {
+	const schema = {
+		boardId: Joi.objectId().required(),
+		columnType: Joi.objectId().required(),
+	};
+}
+
+exports.validateAdd = validateAdd;
 exports.validateReorder = validateReorder;
+exports.Board_column = Board_column;

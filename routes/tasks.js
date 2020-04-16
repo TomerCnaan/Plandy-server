@@ -12,6 +12,7 @@ const {
 	validateDelete,
 	validateReorder,
 	validateOuterReorder,
+	validateName,
 } = require("../models/task");
 const { Group } = require("../models/group");
 const { Board } = require("../models/board");
@@ -44,6 +45,39 @@ router.post("/", auth, async (req, res) => {
 	group.save();
 
 	return res.send(newTask);
+});
+
+// change task name
+router.put("/", auth, async (req, res) => {
+	const { error } = validateName(req.body);
+	if (error) return res.status(400).send(error.details[0].message);
+
+	const { boardId, groupId, taskId, name } = req.body;
+
+	const board = await Board.findById(boardId);
+	if (!board) return res.status(400).send("Invalid board id.");
+
+	const permitted = board.permitted_users.map((user) => String(user));
+	if (!permitted.includes(req.user._id))
+		return res
+			.status(403)
+			.send("You don't have a permission to delete a task.");
+
+	let boardGroups = board.groups.map((group) => String(group));
+	if (!boardGroups.includes(groupId))
+		return res.status(400).send("Invalid group id.");
+
+	const group = await Group.findById(groupId);
+	const tasks = group.tasks.map((task) => String(task));
+	if (!tasks.includes(taskId)) return res.status(400).send("Invalid task id.");
+
+	const task = await Task.findByIdAndUpdate(
+		taskId,
+		{ name: name },
+		{ new: true, useFindAndModify: false }
+	);
+
+	return res.send(task);
 });
 
 // delete a task

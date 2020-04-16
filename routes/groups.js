@@ -112,8 +112,7 @@ router.put("/title", auth, async (req, res) => {
 	const group = await Group.findByIdAndUpdate(
 		groupId,
 		{ title },
-		{ new: true },
-		{ useFindAndModify: false }
+		{ new: true, useFindAndModify: false }
 	);
 
 	return res.send(group);

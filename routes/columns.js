@@ -6,8 +6,18 @@ const router = express.Router();
 
 const auth = require("../middleware/auth");
 
-const { Board_column, validateReorder } = require("../models/boardColumn");
+const {
+	Board_column,
+	validateReorder,
+	validateAdd,
+} = require("../models/boardColumn");
 const { Board } = require("../models/board");
+
+// Add column to a board
+router.get("/", auth, async (req, res) => {
+	const { error } = validateAdd(req.body);
+	if (error) res.status(400).send(error.details[0].message);
+});
 
 // reorder columns of a board
 router.put("/reorder", auth, async (req, res) => {
