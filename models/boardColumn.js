@@ -5,12 +5,24 @@ const boardColumnSchema = new mongoose.Schema({
 	name: {
 		type: String,
 		required: true,
+		minlength: 2,
+		maxlength: 20,
 	},
 	columnType: {
 		type: mongoose.Schema.Types.ObjectId,
 		ref: "Column_type",
+		required: true,
 	},
 	customOptions: [String],
+});
+
+boardColumnSchema.post("save", function (doc, next) {
+	doc
+		.populate("columnType")
+		.execPopulate()
+		.then(function () {
+			next();
+		});
 });
 
 const Board_column = mongoose.model("Board_column", boardColumnSchema);
@@ -29,10 +41,35 @@ function validateReorder(req) {
 function validateAdd(req) {
 	const schema = {
 		boardId: Joi.objectId().required(),
-		columnType: Joi.objectId().required(),
+		columnId: Joi.objectId().required(),
 	};
+
+	return Joi.validate(req, schema);
 }
 
+// validate update name
+function validateName(req) {
+	const schema = {
+		boardId: Joi.objectId().required(),
+		boardColumnId: Joi.objectId().required(),
+		newName: Joi.string().required().min(2).max(20),
+	};
+
+	return Joi.validate(req, schema);
+}
+
+// validate delete column
+function validateDelete(req) {
+	const schema = {
+		boardId: Joi.objectId().required(),
+		boardColumnId: Joi.objectId().required(),
+	};
+
+	return Joi.validate(req, schema);
+}
+
+exports.validateDelete = validateDelete;
+exports.validateName = validateName;
 exports.validateAdd = validateAdd;
 exports.validateReorder = validateReorder;
 exports.Board_column = Board_column;

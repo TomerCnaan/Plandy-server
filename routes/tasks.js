@@ -61,7 +61,7 @@ router.put("/", auth, async (req, res) => {
 	if (!permitted.includes(req.user._id))
 		return res
 			.status(403)
-			.send("You don't have a permission to delete a task.");
+			.send("You don't have a permission to change the task name.");
 
 	let boardGroups = board.groups.map((group) => String(group));
 	if (!boardGroups.includes(groupId))

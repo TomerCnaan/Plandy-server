@@ -6,7 +6,7 @@ const { Column_type } = require("../models/columnType");
 router.get("/", async (req, res) => {
 	const columnTypes = await Column_type.find()
 		.sort("type")
-		.select("type options -_id");
+		.select("type options");
 	res.send(columnTypes);
 });
 
