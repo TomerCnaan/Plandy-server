@@ -52,7 +52,7 @@ function validateName(req) {
 	const schema = {
 		boardId: Joi.objectId().required(),
 		boardColumnId: Joi.objectId().required(),
-		newName: Joi.string().required().min(2).max(20),
+		newName: Joi.string().required().min(2).max(12),
 	};
 
 	return Joi.validate(req, schema);
