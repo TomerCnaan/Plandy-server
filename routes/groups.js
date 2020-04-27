@@ -12,6 +12,7 @@ const {
 	validateNew,
 	validateDelete,
 	validateTitle,
+	validateColor,
 } = require("../models/group");
 const { Board } = require("../models/board");
 
@@ -112,6 +113,34 @@ router.put("/title", auth, async (req, res) => {
 	const group = await Group.findByIdAndUpdate(
 		groupId,
 		{ title },
+		{ new: true, useFindAndModify: false }
+	);
+
+	return res.send(group);
+});
+
+// update the group's color
+router.put("/color", auth, async (req, res) => {
+	const { error } = validateColor(req.body);
+	if (error) return res.status(400).send(error.details[0].message);
+
+	const { boardId, groupId, color } = req.body;
+
+	const board = await Board.findById(boardId);
+	if (!board) return res.status(400).send("Invalid board id.");
+
+	if (String(board.owner) !== req.user._id)
+		return res
+			.status(403)
+			.send("You don't have a permission to change the color.");
+
+	let boardGroups = board.groups.map((group) => String(group));
+	if (!boardGroups.includes(groupId))
+		return res.status(400).send("Invalid group id.");
+
+	const group = await Group.findByIdAndUpdate(
+		groupId,
+		{ color },
 		{ new: true, useFindAndModify: false }
 	);
 

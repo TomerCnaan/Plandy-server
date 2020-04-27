@@ -62,6 +62,17 @@ function validateTitle(req) {
 	return Joi.validate(req, schema);
 }
 
+function validateColor(req) {
+	const schema = {
+		boardId: Joi.objectId().required(),
+		groupId: Joi.objectId().required(),
+		color: Joi.string().required(),
+	};
+
+	return Joi.validate(req, schema);
+}
+
+exports.validateColor = validateColor;
 exports.validateTitle = validateTitle;
 exports.validateNew = validateNew;
 exports.validateDelete = validateDelete;

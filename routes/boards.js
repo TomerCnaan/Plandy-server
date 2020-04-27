@@ -12,6 +12,7 @@ const {
 	validateDelete,
 	validateType,
 	validateDescription,
+	validateAddUsers,
 } = require("../models/board");
 const { User } = require("../models/user");
 const { Group } = require("../models/group");
@@ -85,7 +86,7 @@ router.post("/", [auth, admin], async (req, res) => {
 /*
 	get board data for a specific board
 */
-router.get("/:id", auth, async (req, res) => {
+router.get("/:id", [auth, admin], async (req, res) => {
 	if (!req.params.id.match(/^[0-9a-fA-F]{24}$/))
 		return res.status(400).send("Invalid board id");
 
@@ -128,7 +129,7 @@ router.get("/:id", auth, async (req, res) => {
 /*
 	Delete a board by id.
 */
-router.delete("/:id", auth, async (req, res) => {
+router.delete("/:id", [auth, admin], async (req, res) => {
 	const id = req.params.id;
 
 	const { error } = validateDelete(req.params);
@@ -145,7 +146,7 @@ router.delete("/:id", auth, async (req, res) => {
 /*
 	Change the type of a board
  */
-router.put("/type", auth, async (req, res) => {
+router.put("/type", [auth, admin], async (req, res) => {
 	const { type, boardId } = req.body;
 
 	const { error } = validateType(req.body);
@@ -157,12 +158,11 @@ router.put("/type", auth, async (req, res) => {
 	if (String(board.owner) !== req.user._id)
 		return res
 			.status(403)
-			.send("You have no permission to change to board type.");
+			.send("You have no permission to change the board type.");
 
 	if (String(board.type) !== "public" && type === "public") {
 		// add all company users to the board if type converted to public.
 		const userInBoard = board.permitted_users.concat(board.read_only_users);
-		console.log(userInBoard);
 		let usersToAdd = await User.find({ company: board.company })
 			.where("_id")
 			.nin(userInBoard)
@@ -182,7 +182,7 @@ router.put("/type", auth, async (req, res) => {
 /*
 	update board description
  */
-router.put("/description", auth, async (req, res) => {
+router.put("/description", [auth, admin], async (req, res) => {
 	const { error } = validateDescription(req.body);
 	if (error) return res.status(400).send(error.details[0].message);
 
@@ -194,7 +194,7 @@ router.put("/description", auth, async (req, res) => {
 	if (String(board.owner) !== req.user._id)
 		return res
 			.status(403)
-			.send("You have no permission to change to board type.");
+			.send("You have no permission to change the board description.");
 
 	board.description = description;
 	board.save();
@@ -203,5 +203,44 @@ router.put("/description", auth, async (req, res) => {
 });
 
 // TODO: post - add users to a private board.
+
+router.post("/add-users", [auth, admin], async (req, res) => {
+	const { error } = validateAddUsers(req.body);
+	if (error) return res.status(400).send(error.details[0].message);
+
+	const { boardId, users: newUsers, permitted } = req.body;
+
+	let board = await Board.findById(boardId);
+	if (!board) return res.status(400).send("Invalid board id.");
+
+	if (String(board.owner) !== req.user._id)
+		return res
+			.status(403)
+			.send("You have no permission to add users to the board.");
+
+	if (String(board.type) === "public")
+		return res
+			.status(400)
+			.send("The board is public - all the users can already see it.");
+
+	const usersInBoard = board.permitted_users.concat(board.read_only_users);
+
+	for (const userId of newUsers) {
+		if (usersInBoard.includes(userId))
+			return res
+				.status(400)
+				.send("One of the users already exists in this board.");
+
+		const user = await User.findOne({ _id: userId, company: board.company });
+		if (!user) return res.status(400).send("One or more invalid user id's");
+	}
+
+	if (permitted === "true") {
+		board.permitted_users.push(newUsers);
+	} else board.read_only_users.push(newUsers);
+
+	board = await board.save();
+	res.send(board);
+});
 
 module.exports = router;

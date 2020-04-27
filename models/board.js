@@ -95,6 +95,17 @@ function validateDescription(req) {
 	return Joi.validate(req, schema);
 }
 
+function validateAddUsers(req) {
+	const schema = {
+		boardId: Joi.objectId().required(),
+		users: Joi.array().items(Joi.objectId().required()).unique().required(),
+		permitted: Joi.bool().required(),
+	};
+
+	return Joi.validate(req, schema);
+}
+
+exports.validateAddUsers = validateAddUsers;
 exports.validateDescription = validateDescription;
 exports.validateType = validateType;
 exports.validateDelete = validateDelete;
