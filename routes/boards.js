@@ -13,6 +13,7 @@ const {
 	validateType,
 	validateDescription,
 	validateAddUsers,
+	validateGetUsers,
 } = require("../models/board");
 const { User } = require("../models/user");
 const { Group } = require("../models/group");
@@ -202,8 +203,35 @@ router.put("/description", [auth, admin], async (req, res) => {
 	return res.send(description);
 });
 
-// TODO: post - add users to a private board.
+// get users of a spesific board
+router.get("/users/:boardId", auth, async (req, res) => {
+	const { error } = validateGetUsers(req.params);
+	if (error) return res.status(400).send(error.details[0].message);
 
+	const { boardId } = req.params;
+	console.log("boardId:", boardId);
+
+	const board = await Board.findById(boardId);
+	if (!board) return res.status(400).send("Invalid board id.");
+
+	const usersInBoard = board.permitted_users.concat(board.read_only_users);
+	if (!usersInBoard.includes(req.user._id))
+		return res.status(400).send("The user doesn't exist in this board.");
+
+	const permitted = board.permitted_users.filter(
+		(userId) => String(userId) !== String(board.owner)
+	);
+
+	const data = {
+		owner: board.owner,
+		permitted,
+		readOnly: board.read_only_users,
+	};
+
+	res.send(data);
+});
+
+// add users to a board
 router.post("/add-users", [auth, admin], async (req, res) => {
 	const { error } = validateAddUsers(req.body);
 	if (error) return res.status(400).send(error.details[0].message);

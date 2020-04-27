@@ -105,6 +105,15 @@ function validateAddUsers(req) {
 	return Joi.validate(req, schema);
 }
 
+function validateGetUsers(req) {
+	const schema = {
+		boardId: Joi.objectId().required(),
+	};
+
+	return Joi.validate(req, schema);
+}
+
+exports.validateGetUsers = validateGetUsers;
 exports.validateAddUsers = validateAddUsers;
 exports.validateDescription = validateDescription;
 exports.validateType = validateType;
