@@ -209,23 +209,26 @@ router.get("/users/:boardId", auth, async (req, res) => {
 	if (error) return res.status(400).send(error.details[0].message);
 
 	const { boardId } = req.params;
-	console.log("boardId:", boardId);
 
-	const board = await Board.findById(boardId);
+	const board = await Board.findOne({ _id: boardId })
+		.populate("owner")
+		.populate("permitted_users")
+		.populate("read_only_users");
 	if (!board) return res.status(400).send("Invalid board id.");
 
-	const usersInBoard = board.permitted_users.concat(board.read_only_users);
+	let usersInBoard = board.permitted_users.concat(board.read_only_users);
+	usersInBoard = usersInBoard.map((user) => user._id);
 	if (!usersInBoard.includes(req.user._id))
 		return res.status(400).send("The user doesn't exist in this board.");
 
 	const permitted = board.permitted_users.filter(
-		(userId) => String(userId) !== String(board.owner)
+		(user) => String(user._id) !== String(board.owner._id)
 	);
 
 	const data = {
-		owner: board.owner,
+		owner: board.owner.name,
 		permitted,
-		readOnly: board.read_only_users,
+		readOnly: board.read_only_users.name,
 	};
 
 	res.send(data);
