@@ -141,3 +141,15 @@
 {"level":"info","message":"Listening on port 5000...","timestamp":"2020-04-28T12:16:48.609Z"}
 {"level":"info","message":"Listening on port 5000...","timestamp":"2020-04-28T12:17:34.118Z"}
 {"level":"info","message":"Listening on port 5000...","timestamp":"2020-04-28T12:17:54.356Z"}
+{"level":"info","message":"Listening on port 5000...","timestamp":"2020-04-28T12:52:20.105Z"}
+{"level":"info","message":"Listening on port 5000...","timestamp":"2020-04-28T13:31:09.065Z"}
+{"level":"info","message":"Listening on port 5000...","timestamp":"2020-04-28T13:31:26.341Z"}
+{"level":"info","message":"Listening on port 5000...","timestamp":"2020-04-28T13:32:18.657Z"}
+{"level":"info","message":"Listening on port 5000...","timestamp":"2020-04-28T13:33:31.886Z"}
+{"message":"Converting circular structure to JSON","stack":"TypeError: Converting circular structure to JSON\n    at JSON.stringify (<anonymous>)\n    at stringify (C:\\coding\\Plandy\\Plandy-server\\node_modules\\express\\lib\\response.js:1123:12)\n    at ServerResponse.json (C:\\coding\\Plandy\\Plandy-server\\node_modules\\express\\lib\\response.js:260:14)\n    at ServerResponse.send (C:\\coding\\Plandy\\Plandy-server\\node_modules\\express\\lib\\response.js:158:21)\n    at router.get (C:\\coding\\Plandy\\Plandy-server\\routes\\boards.js:258:6)\n    at process._tickCallback (internal/process/next_tick.js:68:7)","level":"error","timestamp":"2020-04-28T13:35:17.054Z"}
+{"level":"info","message":"Listening on port 5000...","timestamp":"2020-04-28T13:35:49.518Z"}
+{"level":"info","message":"Listening on port 5000...","timestamp":"2020-04-28T13:37:35.289Z"}
+{"level":"info","message":"Listening on port 5000...","timestamp":"2020-04-28T14:07:29.742Z"}
+{"level":"info","message":"Listening on port 5000...","timestamp":"2020-04-28T14:08:12.097Z"}
+{"level":"info","message":"Message sent: <3e5836df-f111-cc53-f050-b841c7a0dc66@gmail.com>","timestamp":"2020-04-28T15:06:24.705Z"}
+{"level":"info","message":"Message sent: <6bf59f35-ca27-73f8-3f76-231693736bfa@gmail.com>","timestamp":"2020-04-28T15:06:37.307Z"}

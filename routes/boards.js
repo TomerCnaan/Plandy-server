@@ -87,7 +87,7 @@ router.post("/", [auth, admin], async (req, res) => {
 /*
 	get board data for a specific board
 */
-router.get("/:id", [auth, admin], async (req, res) => {
+router.get("/:id", [auth], async (req, res) => {
 	if (!req.params.id.match(/^[0-9a-fA-F]{24}$/))
 		return res.status(400).send("Invalid board id");
 
@@ -228,10 +228,39 @@ router.get("/users/:boardId", auth, async (req, res) => {
 	const data = {
 		owner: board.owner.name,
 		permitted,
-		readOnly: board.read_only_users.name,
+		readOnly: board.read_only_users,
 	};
 
 	res.send(data);
+});
+
+router.get("/other-users/:boardId", [auth, admin], async (req, res) => {
+	const { error } = validateGetUsers(req.params);
+	if (error) return res.status(400).send(error.details[0].message);
+
+	const { boardId } = req.params;
+
+	const board = await Board.findById(boardId);
+	if (!board) return res.status(400).send("Invalid board id.");
+
+	if (String(board.owner) !== req.user._id)
+		return res
+			.status(403)
+			.send("You have no permission to add users to the board.");
+
+	if (String(board.type) === "public")
+		return res
+			.status(400)
+			.send("The board is public - all the users can already see it.");
+
+	const usersInBoard = board.permitted_users.concat(board.read_only_users);
+
+	const usersNotInBoard = await User.find({
+		_id: { $nin: usersInBoard },
+		company: board.company,
+	}).select("name");
+
+	res.send(usersNotInBoard);
 });
 
 // add users to a board
