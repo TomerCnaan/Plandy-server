@@ -248,11 +248,6 @@ router.get("/other-users/:boardId", [auth, admin], async (req, res) => {
 			.status(403)
 			.send("You have no permission to add users to the board.");
 
-	if (String(board.type) === "public")
-		return res
-			.status(400)
-			.send("The board is public - all the users can already see it.");
-
 	const usersInBoard = board.permitted_users.concat(board.read_only_users);
 
 	const usersNotInBoard = await User.find({
@@ -295,7 +290,7 @@ router.post("/add-users", [auth, admin], async (req, res) => {
 		if (!user) return res.status(400).send("One or more invalid user id's");
 	}
 
-	if (permitted === "true") {
+	if (permitted) {
 		board.permitted_users.push(newUsers);
 	} else board.read_only_users.push(newUsers);
 
