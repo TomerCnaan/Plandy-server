@@ -8,12 +8,14 @@ const router = express.Router();
 const { sendMail } = require("../util/mailer");
 
 const auth = require("../middleware/auth");
+const admin = require("../middleware/admin");
 
 const { Board } = require("../models/board");
 const {
 	User,
 	validate: validateUser,
 	validateExisting,
+	validateRoleChange,
 } = require("../models/user");
 const { Company, validate: validateCompany } = require("../models/company");
 const {
@@ -27,7 +29,7 @@ const {
 router.get("/", auth, async (req, res) => {
 	const companyId = req.user.company;
 	const companyUsers = await User.find({ company: companyId }).sort("name");
-	res.send(companyUsers);
+	res.send(_.pick(companyUsers, ["name", "_id", "role", "email"]));
 });
 
 /*
@@ -168,8 +170,10 @@ router.post("/add/:token", async (req, res) => {
 		.send(_.pick(user, ["_id", "name", "email", "role", "company"]));
 });
 
+// TODO: delete user from a company
+
 /*
- update user 
+ update user's name
 */
 router.put("/:id", auth, async (req, res) => {
 	const { error } = validateExisting(req.body);
@@ -191,6 +195,52 @@ router.put("/:id", auth, async (req, res) => {
 	if (!user)
 		return res.status(404).send("The user with the given ID was not found.");
 	res.send(user.name);
+});
+
+/* 
+	change user's role
+*/
+router.put("/role/:id", [auth, admin], async (req, res) => {
+	const { error } = validateRoleChange({
+		userId: req.params.id,
+		newRole: req.body.role,
+	});
+	if (error) return res.status(400).send(error.details[0].message);
+
+	const { role: newRole } = req.body;
+	const userId = req.params.id; // The id of the user that it's role is being changed
+
+	if (userId === req.user._id)
+		return res.status(400).send("You can't change your own role");
+
+	// admin can only change members role to admin role
+	if (
+		(newRole === "member" || newRole === "supervisor") &&
+		req.user.role === "admin"
+	)
+		return res
+			.status(400)
+			.send("Admins can only upgrade members to admin role.");
+
+	const userToUpdate = await User.findById(userId);
+	if (String(userToUpdate.company) !== req.user.company)
+		return res
+			.status(400)
+			.send("The user with the given Id is not a part of the company.");
+
+	if (userToUpdate.role === "supervisor")
+		return res.status(400).send("You can't change the role of a supervisor.");
+	if (userToUpdate.role === "admin" && req.user.role === "admin")
+		return res
+			.status(400)
+			.send("Admins can't change the role of other admins.");
+	if (userToUpdate.role === newRole)
+		return res.status(400).send(`${newRole} is already the user's role.`);
+
+	userToUpdate.role = newRole;
+	const updatedUser = await userToUpdate.save();
+
+	res.send(_.pick(updatedUser, ["_id", "role", "name"]));
 });
 
 module.exports = router;

@@ -234,6 +234,7 @@ router.get("/users/:boardId", auth, async (req, res) => {
 	res.send(data);
 });
 
+// get all the users from the company that are not in the given board
 router.get("/other-users/:boardId", [auth, admin], async (req, res) => {
 	const { error } = validateGetUsers(req.params);
 	if (error) return res.status(400).send(error.details[0].message);
@@ -297,5 +298,7 @@ router.post("/add-users", [auth, admin], async (req, res) => {
 	board = await board.save();
 	res.send(board);
 });
+
+//TODO: delete a user from the board
 
 module.exports = router;

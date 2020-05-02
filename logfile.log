@@ -156,3 +156,14 @@
 {"level":"info","message":"Listening on port 5000...","timestamp":"2020-04-28T15:24:36.040Z"}
 {"level":"info","message":"Listening on port 5000...","timestamp":"2020-04-28T15:29:12.401Z"}
 {"level":"info","message":"Listening on port 5000...","timestamp":"2020-04-28T16:58:42.052Z"}
+{"level":"info","message":"Listening on port 5000...","timestamp":"2020-05-02T12:32:54.155Z"}
+{"level":"info","message":"Listening on port 5000...","timestamp":"2020-05-02T14:33:54.664Z"}
+{"level":"info","message":"Listening on port 5000...","timestamp":"2020-05-02T14:38:31.703Z"}
+{"level":"info","message":"Listening on port 5000...","timestamp":"2020-05-02T14:44:19.034Z"}
+{"level":"info","message":"Listening on port 5000...","timestamp":"2020-05-02T14:44:49.474Z"}
+{"level":"info","message":"Listening on port 5000...","timestamp":"2020-05-02T14:47:24.572Z"}
+{"level":"info","message":"Listening on port 5000...","timestamp":"2020-05-02T14:56:37.274Z"}
+{"level":"info","message":"Listening on port 5000...","timestamp":"2020-05-02T15:00:39.240Z"}
+{"message":"Unexpected token r in JSON at position 3","stack":"SyntaxError: Unexpected token r in JSON at position 3\n    at JSON.parse (<anonymous>)\n    at parse (C:\\coding\\Plandy\\Plandy-server\\node_modules\\body-parser\\lib\\types\\json.js:89:19)\n    at C:\\coding\\Plandy\\Plandy-server\\node_modules\\body-parser\\lib\\read.js:121:18\n    at invokeCallback (C:\\coding\\Plandy\\Plandy-server\\node_modules\\raw-body\\index.js:224:16)\n    at done (C:\\coding\\Plandy\\Plandy-server\\node_modules\\raw-body\\index.js:213:7)\n    at IncomingMessage.onEnd (C:\\coding\\Plandy\\Plandy-server\\node_modules\\raw-body\\index.js:273:7)\n    at IncomingMessage.emit (events.js:189:13)\n    at endReadableNT (_stream_readable.js:1103:12)\n    at process._tickCallback (internal/process/next_tick.js:63:19)","expose":true,"statusCode":400,"status":400,"body":"{\n\trole: \"admin\"\n}","type":"entity.parse.failed","level":"error","timestamp":"2020-05-02T15:03:23.505Z"}
+{"level":"info","message":"Listening on port 5000...","timestamp":"2020-05-02T15:05:36.143Z"}
+{"level":"info","message":"Listening on port 5000...","timestamp":"2020-05-02T15:13:54.500Z"}
