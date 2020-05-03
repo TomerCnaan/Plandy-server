@@ -51,6 +51,7 @@ router.post("/", async (req, res) => {
 	const { error: companyError } = validateCompany(req.body.company);
 	if (companyError) return res.status(400).send(error.details[0].message);
 
+	// create new object from type Company and save
 	company = new Company(_.pick(req.body.company, ["name"]));
 	await company.save();
 
@@ -62,11 +63,13 @@ router.post("/", async (req, res) => {
 		company: company._id,
 	});
 
+	// encrypt password and save user
 	const salt = await bcrypt.genSalt(10);
 	user.password = await bcrypt.hash(user.password, salt);
 	await user.save();
 
-	const token = user.generateAuthToken();
+	const token = user.generateAuthToken(); //create authentication token
+	// set header with auth token and send the user details
 	res
 		.header("x-auth-token", token)
 		.header("access-control-expose-headers", "x-auth-token")
