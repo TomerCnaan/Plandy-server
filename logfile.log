@@ -167,3 +167,34 @@
 {"message":"Unexpected token r in JSON at position 3","stack":"SyntaxError: Unexpected token r in JSON at position 3\n    at JSON.parse (<anonymous>)\n    at parse (C:\\coding\\Plandy\\Plandy-server\\node_modules\\body-parser\\lib\\types\\json.js:89:19)\n    at C:\\coding\\Plandy\\Plandy-server\\node_modules\\body-parser\\lib\\read.js:121:18\n    at invokeCallback (C:\\coding\\Plandy\\Plandy-server\\node_modules\\raw-body\\index.js:224:16)\n    at done (C:\\coding\\Plandy\\Plandy-server\\node_modules\\raw-body\\index.js:213:7)\n    at IncomingMessage.onEnd (C:\\coding\\Plandy\\Plandy-server\\node_modules\\raw-body\\index.js:273:7)\n    at IncomingMessage.emit (events.js:189:13)\n    at endReadableNT (_stream_readable.js:1103:12)\n    at process._tickCallback (internal/process/next_tick.js:63:19)","expose":true,"statusCode":400,"status":400,"body":"{\n\trole: \"admin\"\n}","type":"entity.parse.failed","level":"error","timestamp":"2020-05-02T15:03:23.505Z"}
 {"level":"info","message":"Listening on port 5000...","timestamp":"2020-05-02T15:05:36.143Z"}
 {"level":"info","message":"Listening on port 5000...","timestamp":"2020-05-02T15:13:54.500Z"}
+{"level":"info","message":"Listening on port 5000...","timestamp":"2020-05-04T08:31:11.842Z"}
+{"level":"info","message":"Listening on port 5000...","timestamp":"2020-05-04T08:57:31.432Z"}
+{"level":"info","message":"Listening on port 5000...","timestamp":"2020-05-04T08:59:24.699Z"}
+{"level":"info","message":"Listening on port 5000...","timestamp":"2020-05-04T08:59:44.895Z"}
+{"level":"info","message":"Listening on port 5000...","timestamp":"2020-05-04T09:03:11.353Z"}
+{"level":"info","message":"Listening on port 5000...","timestamp":"2020-05-04T09:11:04.014Z"}
+{"level":"info","message":"Listening on port 5000...","timestamp":"2020-05-04T09:15:00.937Z"}
+{"level":"info","message":"Listening on port 5000...","timestamp":"2020-05-04T09:21:22.850Z"}
+{"level":"info","message":"Listening on port 5000...","timestamp":"2020-05-04T09:28:39.368Z"}
+{"level":"info","message":"Listening on port 5000...","timestamp":"2020-05-04T09:32:35.857Z"}
+{"level":"info","message":"Listening on port 5000...","timestamp":"2020-05-04T09:37:01.247Z"}
+{"level":"info","message":"Listening on port 5000...","timestamp":"2020-05-04T09:37:56.811Z"}
+{"level":"info","message":"Listening on port 5000...","timestamp":"2020-05-04T09:41:34.451Z"}
+{"level":"info","message":"Listening on port 5000...","timestamp":"2020-05-04T09:42:24.712Z"}
+{"level":"info","message":"Listening on port 5000...","timestamp":"2020-05-04T09:43:07.471Z"}
+{"level":"info","message":"Listening on port 5000...","timestamp":"2020-05-04T09:51:15.261Z"}
+{"level":"info","message":"Listening on port 5000...","timestamp":"2020-05-04T09:51:32.921Z"}
+{"level":"info","message":"Listening on port 5000...","timestamp":"2020-05-04T10:38:31.124Z"}
+{"level":"info","message":"Listening on port 5000...","timestamp":"2020-05-04T10:40:21.181Z"}
+{"message":"Joi.objectI is not a function","stack":"TypeError: Joi.objectI is not a function\n    at validateNewText (C:\\coding\\Plandy\\plandy-server\\util\\cellsValidation.js:7:15)\n    at router.post (C:\\coding\\Plandy\\plandy-server\\routes\\cells.js:14:20)\n    at newFn (C:\\coding\\Plandy\\plandy-server\\node_modules\\express-async-errors\\index.js:16:20)\n    at Layer.handle [as handle_request] (C:\\coding\\Plandy\\plandy-server\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at next (C:\\coding\\Plandy\\plandy-server\\node_modules\\express\\lib\\router\\route.js:137:13)\n    at auth (C:\\coding\\Plandy\\plandy-server\\middleware\\auth.js:11:3)\n    at newFn (C:\\coding\\Plandy\\plandy-server\\node_modules\\express-async-errors\\index.js:16:20)\n    at Layer.handle [as handle_request] (C:\\coding\\Plandy\\plandy-server\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at next (C:\\coding\\Plandy\\plandy-server\\node_modules\\express\\lib\\router\\route.js:137:13)\n    at Route.dispatch (C:\\coding\\Plandy\\plandy-server\\node_modules\\express\\lib\\router\\route.js:112:3)\n    at newFn (C:\\coding\\Plandy\\plandy-server\\node_modules\\express-async-errors\\index.js:16:20)\n    at Layer.handle [as handle_request] (C:\\coding\\Plandy\\plandy-server\\node_modules\\express\\lib\\router\\layer.js:95:5)\n    at C:\\coding\\Plandy\\plandy-server\\node_modules\\express\\lib\\router\\index.js:281:22\n    at Function.process_params (C:\\coding\\Plandy\\plandy-server\\node_modules\\express\\lib\\router\\index.js:335:12)\n    at next (C:\\coding\\Plandy\\plandy-server\\node_modules\\express\\lib\\router\\index.js:275:10)\n    at Function.handle (C:\\coding\\Plandy\\plandy-server\\node_modules\\express\\lib\\router\\index.js:174:3)","level":"error","timestamp":"2020-05-04T10:56:32.737Z"}
+{"level":"info","message":"Listening on port 5000...","timestamp":"2020-05-04T10:56:52.097Z"}
+{"message":"task.column_values.boardColumn is not a function","stack":"TypeError: task.column_values.boardColumn is not a function\n    at router.post (C:\\coding\\Plandy\\plandy-server\\routes\\cells.js:33:34)\n    at process._tickCallback (internal/process/next_tick.js:68:7)","level":"error","timestamp":"2020-05-04T10:56:58.546Z"}
+{"level":"info","message":"Listening on port 5000...","timestamp":"2020-05-04T10:59:15.533Z"}
+{"message":"Cannot set property 'value' of undefined","stack":"TypeError: Cannot set property 'value' of undefined\n    at router.post (C:\\coding\\Plandy\\plandy-server\\routes\\cells.js:39:13)\n    at process._tickCallback (internal/process/next_tick.js:68:7)","level":"error","timestamp":"2020-05-04T10:59:24.483Z"}
+{"level":"info","message":"Listening on port 5000...","timestamp":"2020-05-04T11:00:27.726Z"}
+{"level":"info","message":"Listening on port 5000...","timestamp":"2020-05-04T11:01:01.001Z"}
+{"level":"info","message":"Listening on port 5000...","timestamp":"2020-05-04T11:01:42.169Z"}
+{"level":"info","message":"Listening on port 5000...","timestamp":"2020-05-04T11:12:08.357Z"}
+{"level":"info","message":"Listening on port 5000...","timestamp":"2020-05-04T11:18:31.281Z"}
+{"level":"info","message":"Listening on port 5000...","timestamp":"2020-05-04T11:20:16.967Z"}
+{"level":"info","message":"Listening on port 5000...","timestamp":"2020-05-04T11:21:14.630Z"}

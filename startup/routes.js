@@ -8,6 +8,7 @@ const boards = require("../routes/boards");
 const groups = require("../routes/groups");
 const tasks = require("../routes/tasks");
 const columns = require("../routes/columns");
+const cells = require("../routes/cells");
 const error = require("../middleware/error");
 
 module.exports = function (app) {
@@ -20,5 +21,6 @@ module.exports = function (app) {
 	app.use("/api/groups", groups);
 	app.use("/api/tasks", tasks);
 	app.use("/api/columns", columns);
+	app.use("/api/cells", cells);
 	app.use(error);
 };

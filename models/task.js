@@ -7,6 +7,11 @@ const columnValueSchema = new mongoose.Schema({
 		ref: "Column_type",
 		required: true,
 	},
+	boardColumn: {
+		type: mongoose.Schema.Types.ObjectId,
+		ref: "Board_column",
+		required: true,
+	},
 	value: {
 		type: String,
 		default: "",
@@ -26,8 +31,6 @@ const taskSchema = new mongoose.Schema({
 });
 
 const Task = mongoose.model("Task", taskSchema);
-
-// TODO: Add validatioin functions
 
 /*
 	validation
