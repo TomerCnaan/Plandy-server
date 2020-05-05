@@ -8,19 +8,12 @@ function sendMail(emailReceiver, company, link) {
 	`;
 
 	let transporter = nodemailer.createTransport({
-		// service: "gmail",
 		host: "in-v3.mailjet.com",
 		port: 587,
 		secure: false,
-		// auth: {
-		// 	user: config.get("emailUser"),
-		// 	pass: config.get("emailPassword")
-		// }
-
-		// TODO: store in env vars
 		auth: {
-			user: "bac0b40eddf516fa3c886b61661de614",
-			pass: "f09fbaa5aad6b4d9972eb24ec86d872a",
+			user: config.get("emailTransporter"),
+			pass: config.get("emailPassword"),
 		},
 	});
 
@@ -31,11 +24,11 @@ function sendMail(emailReceiver, company, link) {
 		html: emailbody,
 	};
 
-	transporter.verify(function (error, success) {
+	transporter.verify(function (err, success) {
 		if (error) {
-			console.log(error);
+			winston.error(err);
 		} else {
-			console.log("Server is ready to take our messages");
+			winston.info("Server is ready to take our messages");
 		}
 	});
 

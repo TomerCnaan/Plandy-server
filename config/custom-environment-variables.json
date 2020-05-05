@@ -1,5 +1,6 @@
 {
 	"jwtPrivateKey": "Plandy_privateKey",
 	"emailUser": "Plandy_emailAdress",
-	"emailPassword": "Plandy_emailPassword"
+	"emailPassword": "Plandy_emailPassword",
+	"emailTransporter": "Plandy_emailTransporter"
 }
