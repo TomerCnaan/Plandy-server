@@ -25,7 +25,7 @@ function sendMail(emailReceiver, company, link) {
 	};
 
 	transporter.verify(function (err, success) {
-		if (error) {
+		if (err) {
 			winston.error(err);
 		} else {
 			winston.info("Server is ready to take our messages");
