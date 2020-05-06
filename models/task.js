@@ -13,7 +13,7 @@ const columnValueSchema = new mongoose.Schema({
 		required: true,
 	},
 	value: {
-		type: String,
+		type: mongoose.Schema.Types.Mixed,
 		default: "",
 	},
 });

@@ -1,11 +1,16 @@
 const mongoose = require("mongoose");
 
+const columnOptionsSchema = new mongoose.Schema({
+	value: { type: String },
+	color: { type: String },
+});
+
 const columnTypeSchema = new mongoose.Schema({
 	type: {
 		type: String,
-		required: true
+		required: true,
 	},
-	options: [String]
+	options: [columnOptionsSchema],
 });
 
 const Column_type = mongoose.model("Column_type", columnTypeSchema);

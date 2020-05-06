@@ -1,6 +1,17 @@
 const Joi = require("joi");
 const mongoose = require("mongoose");
 
+const customOptionsSchema = new mongoose.Schema({
+	value: {
+		type: String,
+	},
+	color: {
+		type: String,
+	},
+});
+
+const CustomOption = mongoose.model("CustomOption", customOptionsSchema);
+
 const boardColumnSchema = new mongoose.Schema({
 	name: {
 		type: String,
@@ -13,7 +24,7 @@ const boardColumnSchema = new mongoose.Schema({
 		ref: "Column_type",
 		required: true,
 	},
-	customOptions: [String],
+	customOptions: [customOptionsSchema],
 });
 
 boardColumnSchema.post("save", function (doc, next) {
@@ -72,4 +83,5 @@ exports.validateDelete = validateDelete;
 exports.validateName = validateName;
 exports.validateAdd = validateAdd;
 exports.validateReorder = validateReorder;
+exports.CustomOption = CustomOption;
 exports.Board_column = Board_column;

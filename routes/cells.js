@@ -7,7 +7,11 @@ const { Board } = require("../models/board");
 const { Task, Column_value } = require("../models/task");
 const { Board_column } = require("../models/boardColumn");
 
-const { validateNewText, validateNewLink } = require("../util/cellsValidation");
+const {
+	validateNewText,
+	validateNewLink,
+	validateNewPriority,
+} = require("../util/cellsValidation");
 const auth = require("../middleware/auth");
 
 //update or create text cell
@@ -24,6 +28,28 @@ router.post("/link", auth, async (req, res) => {
 	if (error) return res.status(400).send(error.details[0].message);
 
 	handleCellAssignment(req.user, req.body, "link", res);
+});
+
+// update or create priority cell
+router.post("/priority", auth, async (req, res) => {
+	const { error } = validateNewPriority(req.body);
+	if (error) return res.status(400).send(error.details[0].message);
+
+	const priorityColumn = await Board_column.findById(
+		req.body.boardColumnId
+	).populate("columnType");
+	if (!priorityColumn) return res.status(400).send("Invalid board column Id.");
+
+	const options = priorityColumn.columnType.options.map((option) =>
+		String(option.value)
+	);
+	const customOptions = priorityColumn.customOptions.map((option) =>
+		String(option.value)
+	);
+	if (![...options, ...customOptions].includes(req.body.value))
+		return res.status(400).send("Invalid value property.");
+
+	handleCellAssignment(req.user, req.body, "priority", res);
 });
 
 // -------------------------------------

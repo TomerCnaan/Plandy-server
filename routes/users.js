@@ -242,8 +242,12 @@ router.put("/role/:id", [auth, admin], async (req, res) => {
 
 	userToUpdate.role = newRole;
 	const updatedUser = await userToUpdate.save();
+	const token = updatedUser.generateAuthToken();
 
-	res.send(_.pick(updatedUser, ["_id", "role", "name"]));
+	res
+		.header("x-auth-token", token)
+		.header("access-control-expose-headers", "x-auth-token")
+		.send(_.pick(updatedUser, ["_id", "role", "name"]));
 });
 
 module.exports = router;
