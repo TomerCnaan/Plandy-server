@@ -12,6 +12,7 @@ const {
 	validateAdd,
 	validateName,
 	validateDelete,
+	validateCustomPriority,
 } = require("../models/boardColumn");
 const { Board } = require("../models/board");
 
@@ -134,6 +135,27 @@ router.put("/reorder", auth, async (req, res) => {
 	board.column_order = columnsArray;
 	const updatedBoard = await board.save();
 	res.send(updatedBoard);
+});
+
+// add custom options to priority column
+router.post("/options", auth, async (req, res) => {
+	const { error } = validateCustomPriority(req.body);
+	if (error) return res.status(400).send(error.details[0].message);
+
+	const { boardId, boardColumnId, value, color } = req.body;
+
+	const board = await Board.findById(boardId);
+	if (!board) return res.status(400).send("Invalid board Id.");
+
+	const boardColumns = board.column_order.map((col) => String(col));
+	if (!boardColumns.includes(boardColumnId))
+		return res.status(400).send("Invalid board column Id.");
+
+	const boardColumn = await Board_column.findById(boardColumnId);
+	boardColumn.customOptions.push({ value, color });
+	const updatedColumn = await boardColumn.save();
+
+	res.send(updatedColumn);
 });
 
 module.exports = router;

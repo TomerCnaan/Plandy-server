@@ -79,6 +79,19 @@ function validateDelete(req) {
 	return Joi.validate(req, schema);
 }
 
+// validate add custom options to priority column
+function validateCustomPriority(req) {
+	const schema = {
+		boardId: Joi.objectId().required(),
+		boardColumnId: Joi.objectId().required(),
+		value: Joi.string().min(2).max(10).required(),
+		color: Joi.string().required(),
+	};
+
+	return Joi.validate(req, schema);
+}
+
+exports.validateCustomPriority = validateCustomPriority;
 exports.validateDelete = validateDelete;
 exports.validateName = validateName;
 exports.validateAdd = validateAdd;
