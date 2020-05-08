@@ -9,6 +9,7 @@ const groups = require("../routes/groups");
 const tasks = require("../routes/tasks");
 const columns = require("../routes/columns");
 const cells = require("../routes/cells");
+const companies = require("../routes/companies");
 const error = require("../middleware/error");
 
 module.exports = function (app) {
@@ -22,5 +23,6 @@ module.exports = function (app) {
 	app.use("/api/tasks", tasks);
 	app.use("/api/columns", columns);
 	app.use("/api/cells", cells);
+	app.use("/api/companies", companies);
 	app.use(error);
 };

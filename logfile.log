@@ -254,3 +254,20 @@
 {"level":"info","message":"Listening on port 5000...","timestamp":"2020-05-07T08:56:31.029Z"}
 {"level":"info","message":"Listening on port 5000...","timestamp":"2020-05-07T12:59:51.208Z"}
 {"level":"info","message":"Listening on port 5000...","timestamp":"2020-05-07T13:05:13.198Z"}
+{"level":"info","message":"Listening on port 5000...","timestamp":"2020-05-08T14:32:39.700Z"}
+{"level":"info","message":"Listening on port 5000...","timestamp":"2020-05-08T14:39:46.964Z"}
+{"level":"info","message":"Listening on port 5000...","timestamp":"2020-05-08T14:42:07.876Z"}
+{"level":"info","message":"Listening on port 5000...","timestamp":"2020-05-08T14:42:14.973Z"}
+{"level":"info","message":"Listening on port 5000...","timestamp":"2020-05-08T14:50:43.466Z"}
+{"level":"info","message":"Listening on port 5000...","timestamp":"2020-05-08T14:52:54.101Z"}
+{"level":"info","message":"Listening on port 5000...","timestamp":"2020-05-08T14:54:53.024Z"}
+{"level":"info","message":"Listening on port 5000...","timestamp":"2020-05-08T14:54:57.506Z"}
+{"level":"info","message":"Listening on port 5000...","timestamp":"2020-05-08T14:56:00.351Z"}
+{"level":"info","message":"Listening on port 5000...","timestamp":"2020-05-08T14:59:50.882Z"}
+{"message":"Invalid select: select only takes 1 argument","stack":"Error: Invalid select: select only takes 1 argument\n    at model.Query.select (C:\\coding\\Plandy\\Plandy-server\\node_modules\\mongoose\\lib\\query.js:946:11)\n    at router.get (C:\\coding\\Plandy\\Plandy-server\\routes\\companies.js:19:57)\n    at process._tickCallback (internal/process/next_tick.js:68:7)","level":"error","timestamp":"2020-05-08T15:01:18.253Z"}
+{"level":"info","message":"Listening on port 5000...","timestamp":"2020-05-08T15:02:31.792Z"}
+{"message":"Converting circular structure to JSON","stack":"TypeError: Converting circular structure to JSON\n    at JSON.stringify (<anonymous>)\n    at stringify (C:\\coding\\Plandy\\Plandy-server\\node_modules\\express\\lib\\response.js:1123:12)\n    at ServerResponse.json (C:\\coding\\Plandy\\Plandy-server\\node_modules\\express\\lib\\response.js:260:14)\n    at ServerResponse.send (C:\\coding\\Plandy\\Plandy-server\\node_modules\\express\\lib\\response.js:158:21)\n    at router.get (C:\\coding\\Plandy\\Plandy-server\\routes\\companies.js:23:6)\n    at process._tickCallback (internal/process/next_tick.js:68:7)","level":"error","timestamp":"2020-05-08T15:02:36.443Z"}
+{"level":"info","message":"Listening on port 5000...","timestamp":"2020-05-08T15:03:32.090Z"}
+{"message":"Converting circular structure to JSON","stack":"TypeError: Converting circular structure to JSON\n    at JSON.stringify (<anonymous>)\n    at stringify (C:\\coding\\Plandy\\Plandy-server\\node_modules\\express\\lib\\response.js:1123:12)\n    at ServerResponse.json (C:\\coding\\Plandy\\Plandy-server\\node_modules\\express\\lib\\response.js:260:14)\n    at ServerResponse.send (C:\\coding\\Plandy\\Plandy-server\\node_modules\\express\\lib\\response.js:158:21)\n    at router.get (C:\\coding\\Plandy\\Plandy-server\\routes\\companies.js:23:6)\n    at process._tickCallback (internal/process/next_tick.js:68:7)","level":"error","timestamp":"2020-05-08T15:03:35.638Z"}
+{"level":"info","message":"Listening on port 5000...","timestamp":"2020-05-08T15:03:46.145Z"}
+{"level":"info","message":"Listening on port 5000...","timestamp":"2020-05-08T15:10:18.390Z"}
