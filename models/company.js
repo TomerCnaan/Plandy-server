@@ -30,7 +30,7 @@ function validateCompany(company) {
 
 function validateGetInfo(req) {
 	const schema = {
-		companyId: Joi.objectId(),
+		companyId: Joi.objectId().required(),
 	};
 
 	return Joi.validate(req, schema);
