@@ -188,7 +188,7 @@ router.put("/:id", auth, async (req, res) => {
 
 	try {
 		user = await User.findOneAndUpdate(
-			{ _id: new mongoose.Types.ObjectId(req.params.id) },
+			{ _id: req.params.id },
 			{ name: req.body.name },
 			{ new: true, useFindAndModify: false }
 		);
@@ -197,7 +197,9 @@ router.put("/:id", auth, async (req, res) => {
 	}
 	if (!user)
 		return res.status(404).send("The user with the given ID was not found.");
-	res.send(user.name);
+
+	const token = user.generateAuthToken(); //create auth token with user details
+	res.send(token);
 });
 
 /* 
