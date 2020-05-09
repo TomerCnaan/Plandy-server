@@ -13,7 +13,6 @@ router.get("/:companyId", auth, async (req, res) => {
 	if (error) return res.status(400).send(error.details[0].message);
 
 	const { companyId } = req.params;
-	console.log(req.body);
 
 	const company = await Company.findById(companyId);
 	if (!company) return res.status(400).send("Invalid company Id.");
@@ -35,6 +34,19 @@ router.get("/:companyId", auth, async (req, res) => {
 		companyUsers: companyUsers,
 		companyOwner: owner,
 	});
+});
+
+// get company name
+router.get("/name/:companyId", auth, async (req, res) => {
+	const { error } = validateGetInfo(req.params);
+	if (error) return res.status(400).send(error.details[0].message);
+
+	const { companyId } = req.params;
+
+	const company = await Company.findById(companyId);
+	if (!company) return res.status(400).send("Invalid company Id.");
+
+	res.send({ companyName: company.name });
 });
 
 module.exports = router;
