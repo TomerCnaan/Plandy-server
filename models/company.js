@@ -36,6 +36,15 @@ function validateGetInfo(req) {
 	return Joi.validate(req, schema);
 }
 
+function validateDelete(req) {
+	const schema = {
+		companyId: Joi.objectId().required(),
+	};
+
+	return Joi.validate(req, schema);
+}
+
 exports.Company = Company;
 exports.validate = validateCompany;
 exports.validateGetInfo = validateGetInfo;
+exports.validateDelete = validateDelete;
