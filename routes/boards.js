@@ -38,7 +38,7 @@ router.get("/", auth, async (req, res) => {
 			{ permitted_users: { $eq: userId } },
 		])
 		.sort({ name: 1 })
-		.select({ name: 1, description: 1 });
+		.select({ name: 1, description: 1, owner: 1 });
 
 	return res.send(compnayBoards); //Array of board names and id's
 });
