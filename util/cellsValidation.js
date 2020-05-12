@@ -24,7 +24,18 @@ function validateNewLink(req) {
 	return Joi.validate(req, schema);
 }
 
-// validate new / update priority value
+function validateNewNumber(req) {
+	const schema = {
+		boardId: Joi.objectId().required(),
+		taskId: Joi.objectId().required(),
+		value: Joi.number().allow("").required(),
+		boardColumnId: Joi.objectId().required(),
+	};
+
+	return Joi.validate(req, schema);
+}
+
+// validate new / update priority/status value
 function validateNewPriority(req) {
 	const schema = {
 		boardId: Joi.objectId().required(),
@@ -36,6 +47,20 @@ function validateNewPriority(req) {
 	return Joi.validate(req, schema);
 }
 
+// validate new / update date value
+function validateNewDate(req) {
+	const schema = {
+		boardId: Joi.objectId().required(),
+		taskId: Joi.objectId().required(),
+		value: Joi.date().allow("").required(),
+		boardColumnId: Joi.objectId().required(),
+	};
+
+	return Joi.validate(req, schema);
+}
+
 exports.validateNewText = validateNewText;
 exports.validateNewLink = validateNewLink;
+exports.validateNewNumber = validateNewNumber;
 exports.validateNewPriority = validateNewPriority;
+exports.validateNewDate = validateNewDate;

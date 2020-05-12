@@ -10,7 +10,9 @@ const { Board_column } = require("../models/boardColumn");
 const {
 	validateNewText,
 	validateNewLink,
+	validateNewNumber,
 	validateNewPriority,
+	validateNewDate,
 } = require("../util/cellsValidation");
 const auth = require("../middleware/auth");
 
@@ -28,6 +30,14 @@ router.post("/link", auth, async (req, res) => {
 	if (error) return res.status(400).send(error.details[0].message);
 
 	handleCellAssignment(req.user, req.body, "link", res);
+});
+
+// update or create number cell
+router.post("/number", auth, async (req, res) => {
+	const { error } = validateNewNumber(req.body);
+	if (error) return res.status(400).send(error.details[0].message);
+
+	handleCellAssignment(req.user, req.body, "number", res);
 });
 
 // update or create priority cell
@@ -50,6 +60,35 @@ router.post("/priority", auth, async (req, res) => {
 		return res.status(400).send("Invalid value property.");
 
 	handleCellAssignment(req.user, req.body, "priority", res);
+});
+
+// update or create status cell
+router.post("/status", auth, async (req, res) => {
+	const { error } = validateNewPriority(req.body);
+	if (error) return res.status(400).send(error.details[0].message);
+
+	const statusColumn = await Board_column.findById(
+		req.body.boardColumnId
+	).populate("columnType");
+	if (!statusColumn) return res.status(400).send("Invalid board column Id.");
+
+	const options = statusColumn.columnType.options.map((option) =>
+		String(option.value)
+	);
+	const customOptions = statusColumn.customOptions.map((option) =>
+		String(option.value)
+	);
+	if (![...options, ...customOptions].includes(req.body.value))
+		return res.status(400).send("Invalid value property.");
+
+	handleCellAssignment(req.user, req.body, "status", res);
+});
+
+router.post("/date", auth, async (req, res) => {
+	const { error } = validateNewDate(req.body);
+	if (error) return res.status(400).send(error.details[0].message);
+
+	handleCellAssignment(req.user, req.body, "due date", res);
 });
 
 // -------------------------------------
@@ -98,7 +137,7 @@ async function handleCellAssignment(user, params, sType, res) {
 	}
 
 	// update current cell
-	cell.value = value;
+	cell.value = value.toString();
 	const updatedTask = await task.save();
 
 	res.send(_.pick(updatedTask, ["_id", "name", "column_values"]));
