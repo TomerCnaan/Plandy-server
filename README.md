@@ -1,7 +1,10 @@
-Problems with installing bcrypt:
-npm install --global --production windows-build-tools --vs2015
-npm i bcrypt
+Plandy-server:
 
+This is the backend side of plandy.online.
+Built with Node.js for the server and MongoDB for the data base.
+
+
+File Tree:
 .
 |-- README.md
 |-- config   
