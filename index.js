@@ -4,6 +4,8 @@ const app = express();
 const server = require("http").createServer(app);
 const io = require("socket.io")(server);
 
+// Let's Go!
+
 require("./startup/cors")(app);
 require("./startup/logging")();
 require("./startup/sock")(io);
