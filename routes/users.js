@@ -1,6 +1,6 @@
 const _ = require("lodash");
 const bcrypt = require("bcrypt");
-const randomString = require("crypto-random-string");
+// import cryptoRandomString from 'crypto-random-string';
 const mongoose = require("mongoose");
 const express = require("express");
 const router = express.Router();
@@ -79,39 +79,39 @@ router.post("/", async (req, res) => {
 /*
  send company invitation email to a given email (via gmail)
 */
-router.post("/add", auth, async (req, res) => {
-	const companyId = req.user.company;
-	const { name: companyName } = await Company.findById(companyId, {
-		name: 1,
-		_id: 0,
-	});
+// router.post("/add", auth, async (req, res) => {
+// 	const companyId = req.user.company;
+// 	const { name: companyName } = await Company.findById(companyId, {
+// 		name: 1,
+// 		_id: 0,
+// 	});
 
-	const { error } = validateEmail(req.body);
-	if (error) return res.status(400).send(error.details[0].message);
-	const emailAdress = req.body.email;
+// 	const { error } = validateEmail(req.body);
+// 	if (error) return res.status(400).send(error.details[0].message);
+// 	const emailAdress = req.body.email;
 
-	const existingUser = await User.findOne({
-		email: emailAdress,
-		company: new mongoose.Types.ObjectId(companyId),
-	});
-	if (existingUser)
-		return res
-			.status(400)
-			.send("The user with the given email already exists in this company.");
+// 	const existingUser = await User.findOne({
+// 		email: emailAdress,
+// 		company: new mongoose.Types.ObjectId(companyId),
+// 	});
+// 	if (existingUser)
+// 		return res
+// 			.status(400)
+// 			.send("The user with the given email already exists in this company.");
 
-	const token = randomString({ length: 10, type: "url-safe" }); // generate random token for the registration link
-	let link = `http://plandy.online/join/${token}`;
-	if (!process.env.NODE_ENV) {
-		link = `http://localhost:3000/join/${token}`;
-	}
+// 	const token = cryptoRandomString({ length: 10, type: "url-safe" }); // generate random token for the registration link
+// 	let link = `http://plandy.online/join/${token}`;
+// 	if (!process.env.NODE_ENV) {
+// 		link = `http://localhost:3000/join/${token}`;
+// 	}
 
-	await sendMail(emailAdress, companyName, link);
+// 	await sendMail(emailAdress, companyName, link);
 
-	const inviteToken = new Email_token({ token, company: companyId });
-	await inviteToken.save();
+// 	const inviteToken = new Email_token({ token, company: companyId });
+// 	await inviteToken.save();
 
-	res.send(`email was sent successfully`);
-});
+// 	res.send(`email was sent successfully`);
+// });
 
 /*
  adds user to an existing company
